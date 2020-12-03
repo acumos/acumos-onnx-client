@@ -52,6 +52,10 @@ setup(
         'License :: OSI Approved :: Apache Software License',
     ],
     description='Acumos client library for building and pushing Python models',
+    entry_points="""
+    [console_scripts]
+    onnx4acumos=onnx4acumos.acumos-onnx-onboarding:run_app_cli
+    """,
     install_requires=['protobuf',
                       'requests',
                       'numpy',
@@ -60,6 +64,10 @@ setup(
                       'filelock',
                       'grpcio',
                       'zipp',
+                      'acumos',
+                      'acumos_model_runner',
+                      'onnx',
+                      'onnxruntime',
                       'typing_inspect'],
     keywords='acumos machine learning model modeling artificial intelligence ml ai onnx',
     license='Apache License 2.0',

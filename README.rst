@@ -16,11 +16,15 @@
 .. limitations under the License.
 .. ===============LICENSE_END=========================================================
 
+
+.. image:: docs/images/Acumos_logo_white.png
+
+
 ====================
+
 acumos-onnx-client
 ====================
 
-.. image:: docs/images/Acumos_logo_white.png
 
 |Build Status|
 
