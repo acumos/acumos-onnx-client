@@ -1,7 +1,7 @@
 .. ===============LICENSE_START=======================================================
 .. Acumos CC-BY-4.0
 .. ===================================================================================
-.. Copyright (C) 2017-2020 Orange Intellectual property. All rights reserved.
+.. Copyright (C) 2020 Orange Intellectual property. All rights reserved.
 .. ===================================================================================
 .. This Acumos documentation file is distributed by Orange
 .. under the Creative Commons Attribution 4.0 International License (the "License");
@@ -16,11 +16,15 @@
 .. limitations under the License.
 .. ===============LICENSE_END=========================================================
 
+
+.. image:: docs/images/Acumos_logo_white.png
+
+
 ====================
+
 acumos-onnx-client
 ====================
 
-.. image:: docs/images/Acumos_logo_white.png
 
 |Build Status|
 
