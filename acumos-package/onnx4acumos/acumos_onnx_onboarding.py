@@ -589,6 +589,6 @@ def run_app_cli():
  
 if __name__ == '__main__':
     # allow direct run of the cli app for debugging
-run_app_cli()
+    run_app_cli()
 
 
