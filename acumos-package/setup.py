@@ -55,7 +55,7 @@ setup(
     description='Acumos ONNX client library for pushing Onnx models in Acumos',
     entry_points="""
     [console_scripts]
-    onnx4acumos=acumos-package.onnx4acumos.acumos_onnx_onboarding:run_app_cli
+    onnx4acumos=onnx4acumos.acumos_onnx_onboarding:run_app_cli
     """,
     install_requires=['protobuf',
                       'requests',
@@ -76,7 +76,7 @@ setup(
     long_description_content_type="text/x-rst",
     name='onnx4acumos',
     packages=find_packages(),
-    package_data={'acumos-package/onnx4acumos': [path_join('Templates', '*.py')]},
+    package_data={'onnx4acumos': [path_join('Templates', '*.py')]},
     python_requires='>=3.6, <3.10',
     url='https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git',
     version=__version__,
