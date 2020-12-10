@@ -55,7 +55,7 @@ setup(
     description='Acumos ONNX client library for pushing Onnx models in Acumos',
     entry_points="""
     [console_scripts]
-    onnx4acumos=onnx4acumos.acumos_onnx_onboarding:run_app_cli
+    onnx4acumos=acumos-package.onnx4acumos.acumos_onnx_onboarding:run_app_cli
     """,
     install_requires=['protobuf',
                       'requests',
