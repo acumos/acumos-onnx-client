@@ -24,7 +24,10 @@ from os import listdir
 
 SETUP_DIR = abspath(dirname(__file__))
 
-# Package consistency tests 
+# Package consistency check 
+
+print("*******   Package consistency check   *******\n")
+
 print(SETUP_DIR,":")
 print("		",listdir(SETUP_DIR),"\n")
 
@@ -38,6 +41,9 @@ for dir in listdir(SETUP_DIR):
     if isdir(path_join(SETUP_DIR, dir)):
        print(path_join(SETUP_DIR, dir)," :")
        print("		",listdir(path_join(SETUP_DIR, dir)),"\n")   
+
+print("*******   Package consistency check end  *******\n")
+
 
 DOCS_DIR = path_join(SETUP_DIR, 'docs')
 
