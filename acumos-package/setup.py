@@ -17,11 +17,28 @@
 # limitations under the License.
 # ===============LICENSE_END=========================================================
 
-from os.path import dirname, abspath, join as path_join
+from os.path import dirname, abspath, join as path_join,isdir
 from setuptools import setup, find_packages
+from os import listdir
 
 
 SETUP_DIR = abspath(dirname(__file__))
+
+# Package consistency tests 
+print(SETUP_DIR,":")
+print("		",listdir(SETUP_DIR),"\n")
+
+if 'onnx4acumos' not in listdir(SETUP_DIR):
+    print("Error : no onnx4acumos directory found \n")
+
+if 'docs' not in listdir(SETUP_DIR):
+    print("Warning : no docs directory found \n")
+
+for dir in listdir(SETUP_DIR):
+    if isdir(path_join(SETUP_DIR, dir)):
+       print(path_join(SETUP_DIR, dir)," :")
+       print("		",listdir(path_join(SETUP_DIR, dir)),"\n")   
+
 DOCS_DIR = path_join(SETUP_DIR, 'docs')
 
 with open(path_join(SETUP_DIR, 'onnx4acumos', '_version.py')) as file:
