@@ -16,25 +16,49 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ===============LICENSE_END=========================================================
-from os.path import dirname, abspath, join as path_join
+
+from os.path import dirname, abspath, join as path_join,isdir
 from setuptools import setup, find_packages
+from os import listdir
 
 
 SETUP_DIR = abspath(dirname(__file__))
-# DOCS_DIR = path_join(SETUP_DIR, 'docs')
 
-# with open(path_join(SETUP_DIR, 'onnx4acumos', '_version.py')) as file:
-#    globals_dict = dict()
-#    exec(file.read(), globals_dict)
-#    __version__ = globals_dict['__version__']
+# Package consistency check 
+
+print("*******   Package consistency check   *******\n")
+
+print(SETUP_DIR,":")
+print("		",listdir(SETUP_DIR),"\n")
+
+if 'onnx4acumos' not in listdir(SETUP_DIR):
+    print("Error : no onnx4acumos directory found \n")
+
+if 'docs' not in listdir(SETUP_DIR):
+    print("Warning : no docs directory found \n")
+
+for dir in listdir(SETUP_DIR):
+    if isdir(path_join(SETUP_DIR, dir)):
+       print(path_join(SETUP_DIR, dir)," :")
+       print("		",listdir(path_join(SETUP_DIR, dir)),"\n")   
+
+print("*******   Package consistency check end  *******\n")
 
 
-# def _long_descr():
-#    '''Yields the content of documentation files for the long description'''
-#    for file in ('user-guide.rst', 'tutorial/index.rst', 'release-notes.rst', 'developer-guide.rst'):
-#        doc_path = path_join(DOCS_DIR, file)
-#        with open(doc_path) as f:
-#            yield f.read()
+DOCS_DIR = path_join(SETUP_DIR, 'docs')
+
+with open(path_join(SETUP_DIR, 'onnx4acumos', '_version.py')) as file:
+    globals_dict = dict()
+    exec(file.read(), globals_dict)
+    __version__ = globals_dict['__version__']
+
+
+def _long_descr():
+    '''Yields the content of documentation files for the long description'''
+    for file in ('user-guide.rst', 'tutorial/index.rst', 'release-notes.rst', 'developper-guide.rst'):
+        doc_path = path_join(DOCS_DIR, file)
+        with open(doc_path) as f:
+            yield f.read()
 
 
 setup(
@@ -52,10 +76,10 @@ setup(
         'License :: OSI Approved :: Apache Software License',
     ],
     description='Acumos ONNX client library for pushing Onnx models in Acumos',
-    #entry_points="""
-    #[console_scripts]
-    #onnx4acumos=onnx4acumos.acumos-onnx-onboarding:run_app_cli
-    #""",
+    entry_points="""
+    [console_scripts]
+    onnx4acumos=onnx4acumos.acumos_onnx_onboarding:run_app_cli
+    """,
     install_requires=['protobuf',
                       'requests',
                       'numpy',
@@ -71,11 +95,12 @@ setup(
                       'typing_inspect'],
     keywords='acumos machine learning model modeling artificial intelligence ml ai onnx',
     license='Apache License 2.0',
-# long_description='\n'.join(_long_descr()),
-# long_description_content_type="text/x-rst",
+    long_description='\n'.join(_long_descr()),
+    long_description_content_type="text/x-rst",
     name='onnx4acumos',
     packages=find_packages(),
+    package_data={'onnx4acumos': [path_join('Templates', '*.py')]},
     python_requires='>=3.6, <3.10',
     url='https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git',
-# version=__version__,
+    version=__version__,
 )
