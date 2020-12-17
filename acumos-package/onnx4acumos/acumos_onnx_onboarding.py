@@ -1,20 +1,20 @@
-.. ===============LICENSE_START=======================================================
-.. Acumos CC-BY-4.0
-.. ===================================================================================
-.. Copyright (C) 2020 Orange Intellectual Property. All rights reserved.
-.. ===================================================================================
-.. This Acumos documentation file is distributed by Orange
-.. under the Creative Commons Attribution 4.0 International License (the "License");
-.. you may not use this file except in compliance with the License.
-.. You may obtain a copy of the License at
-..
-..      http://creativecommons.org/licenses/by/4.0
-..
-.. This file is distributed on an "AS IS" BASIS,
-.. WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-.. See the License for the specific language governing permissions and
-.. limitations under the License.
-.. ===============LICENSE_END=========================================================
+# ===============LICENSE_START=======================================================
+# Acumos CC-BY-4.0
+# ===================================================================================
+# Copyright (C) 2020 Orange Intellectual Property. All rights reserved.
+# ===================================================================================
+# This Acumos documentation file is distributed by Orange
+# under the Creative Commons Attribution 4.0 International License (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://creativecommons.org/licenses/by/4.0
+# 
+# This file is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ===============LICENSE_END=========================================================
 
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
@@ -37,6 +37,10 @@ import onnx
 from onnx import AttributeProto as atpb
 from acumos.exc import AcumosError
 from collections.abc import Iterable
+from os.path import dirname, abspath, join as path_join,isdir
+from os import listdir
+
+
 
 def computeShape(shape:onnx.onnx_ONNX_REL_1_7_ml_pb2.TensorShapeProto):
      outputShape = "("
@@ -105,6 +109,9 @@ def modifOnnxPB(onnxInput,nb, prefixName = "res"):
 
 def run_app_cli():
 
+   # Found where is the setup directory 
+   SETUP_DIR = abspath(dirname(__file__))
+
    # Dump by default (not push)
    pushSession = False
 
@@ -119,22 +126,26 @@ def run_app_cli():
    for arg in argv:
        if re.search("ms", arg):
            createMicroService = True
-
+   modelPath = ""
    modelFileName = "Onnx model should be with .onnx extension or "
    for arg in argv:
-       if re.search(".onnx", arg):
+       if re.search(".onnx", arg) and not re.search("onnx4acumos", arg):
           modelPath = arg
           if pushSession:
              print("Trying to push", modelPath.split(".")[0], "model on Acumos platform")
           else:
              print("Trying to dump", modelPath.split(".")[0], "model in dumpedModel directory")
 
-   modelDir = modelPath.split("/")[0]
-   modelFileName = modelPath.split("/")[1]
+   # Bad command line Help 
+   if modelPath == "":
+      print("Command line shoud be : onnx4acumos ModelName.onnx [-f input.data] [-push [-ms]]")
+      exit()
+
+   modelFileName = modelPath.split("/")[(len(modelPath.split("/")) - 1)]
 
    #Existence test of the provided Onnx model file
    if not os.path.isfile(modelPath):
-      print("File ", modelPath,"is not found")
+      print("Model file ", modelPath,"is not found")
       exit()
 
    try:  
@@ -348,7 +359,7 @@ def run_app_cli():
       newMicroService = "opts = Options(create_microservice=False)\n"
 
    # Opening onnxModelOnBoarding template file 
-   inputFile = open('Templates/onnxModelOnBoardingTemplate.py', "r")
+   inputFile = open(path_join(SETUP_DIR, 'Templates', 'onnxModelOnBoardingTemplate.py'), "r")
 
    # model directory creation 
    dirOnnx = modelFileName.split(".")[0] 
@@ -540,11 +551,11 @@ def run_app_cli():
    newMethodSignature = "def run_" + modelFileName.split(".")[0] +"_OnnxModel(" + onnxInputParam + "):\n"
 
    # Model File Name modification ("OnnxModels/" directory removing from the path)
-   newModelFile = "modelFileName = \"" + modelPath.split("/")[1] +"\"\n"
+   newModelFile = "modelFileName = \"" + modelFileName +"\"\n"
 
    "**************************************************************************"
    # Opening Onnx client template file 
-   inputFile = open('Templates/onnxClientTemplate.py', "r")
+   inputFile = open(path_join(SETUP_DIR, 'Templates', 'onnxClientTemplate.py'), "r")
 
    # Creation of the onnx client skeleton file with appropriate features
    print("Creation of the onnx client skeleton file with appropriate features in",dirClient,"directory") 
@@ -589,6 +600,6 @@ def run_app_cli():
  
 if __name__ == '__main__':
     # allow direct run of the cli app for debugging
-run_app_cli()
+    run_app_cli()
 
 
