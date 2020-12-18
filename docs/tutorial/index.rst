@@ -16,7 +16,7 @@
 .. limitations under the License.
 .. ===============LICENSE_END=========================================================
 
-.. image:: docs/images/Acumos_logo_white.png
+.. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Acumos_logo_white.png
 
 
 =============================
@@ -67,7 +67,7 @@ Introduction
 
 ===================
 
-    .. image:: docs/images/Image1.png
+    .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Image1.png
         :width: 100px
         :align: center
         :height: 50px
@@ -95,7 +95,7 @@ On-boarding Onnx Model on Acumos Plateform
 
 ====================
 
-    .. image:: docs/images/Image2.png
+    .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Image2.png
         :width: 112px
         :align: center
         :height: 63px
@@ -110,7 +110,7 @@ On-boarding Onnx Model on Acumos Plateform
 
 
 
-    .. image:: docs/images/Image3.png
+    .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Image3.png
         :width: 112px
         :align: center
         :height: 63px
@@ -122,7 +122,7 @@ On-boarding Onnx Model on Acumos Plateform
 
 
 
-    .. image:: docs/images/Image4.png
+    .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Image4.png
         :width: 112px
         :align: center
         :height: 63px
@@ -141,7 +141,7 @@ On-boarding Onnx Model on Acumos Plateform
 
 ====================
 
-    .. image:: docs/images/Capture1.png
+    .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Capture1.png
         :width: 112px
         :align: center
         :height: 63px
@@ -187,7 +187,7 @@ On-boarding Onnx Model on Acumos Plateform
 
 ====================
 
-    .. image:: docs/images/Capture2.png
+    .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Capture2.png
         :width: 112px
         :align: center
         :height: 63px
@@ -220,7 +220,7 @@ On-boarding Onnx Model on Acumos Plateform
 
 ====================
 
-    .. image:: docs/images/Capture3.png
+    .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Capture3.png
         :width: 112px
         :align: center
         :height: 63px
@@ -254,7 +254,7 @@ On-boarding Onnx Model on Acumos Plateform
 
 ====================
 
-    .. image:: docs/images/Capture4.png
+    .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Capture4.png
         :width: 112px
         :align: center
         :height: 63px
@@ -274,7 +274,7 @@ Filling skeleton client file
 
 ====================
 
-    .. image:: docs/images/Capture5.png
+    .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Capture5.png
         :width: 112px
         :align: center
         :height: 63px
@@ -446,7 +446,7 @@ Command lines
   You can find all command lines for our bvlcGoogleNet_model example below :
 
 
-    .. image:: docs/images/Commandes.png
+    .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Commandes.png
         :width: 112px
         :align: center
         :height: 63px
@@ -476,7 +476,7 @@ bvlcGoogleNet_Model example
 
 
 
-    .. image:: docs/images/bvlc.png
+    .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/bvlc.png
         :width: 112px
         :align: center
         :height: 63px
@@ -523,7 +523,7 @@ super_resolution_zoo_Model example
 
 
 
-    .. image:: docs/images/superResoZoo.png
+    .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/superResoZoo.png
         :width: 112px
         :align: center
         :height: 63px
@@ -555,7 +555,7 @@ Emotion Ferplus Model example
 
 
 
-    .. image:: docs/images/emotionFerPlus.png
+    .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/emotionFerPlus.png
         :width: 112px
         :align: center
         :height: 63px
