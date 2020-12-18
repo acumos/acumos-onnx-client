@@ -68,9 +68,6 @@ Introduction
 ===================
 
     .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Image1.png
-        :width: 100px
-        :align: center
-        :height: 50px
 
 
     For more informations on Acumos see :   `Acumos AI Linux Fondation project  <https://www.acumos.org/>`__ , his  `Acumos AI Wiki <https://wiki.acumos.org/>`_ and his `Documentation <https://docs.acumos.org/en/latest/>`_.
@@ -96,9 +93,6 @@ On-boarding Onnx Model on Acumos Plateform
 ====================
 
     .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Image2.png
-        :width: 112px
-        :align: center
-        :height: 63px
 
 ====================
 
@@ -111,9 +105,7 @@ On-boarding Onnx Model on Acumos Plateform
 
 
     .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Image3.png
-        :width: 112px
-        :align: center
-        :height: 63px
+
 
     The data scientist can onboard his onnx models using the Acumos client library. After that, he can create a  micro-service and deploy it localy or on the cloud.
 
@@ -123,9 +115,7 @@ On-boarding Onnx Model on Acumos Plateform
 
 
     .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Image4.png
-        :width: 112px
-        :align: center
-        :height: 63px
+ 
      
     At the low level view, the E1 Client Library generate all necessary files in order to on-board the model (metadata, Model binary and Model protobuf definition) .  The onboarding server generate the "Model-solutionID" and provide it to Microservice Generation module in order to stock "Model-Docker"  image in Docker repositiory.  In paralell, the onboarding server save the model  in the Artifact Repository. 
 
@@ -142,9 +132,7 @@ On-boarding Onnx Model on Acumos Plateform
 ====================
 
     .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Capture1.png
-        :width: 112px
-        :align: center
-        :height: 63px
+
 
 
 ===========================
@@ -188,9 +176,7 @@ On-boarding Onnx Model on Acumos Plateform
 ====================
 
     .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Capture2.png
-        :width: 112px
-        :align: center
-        :height: 63px
+
 
 ====================
 
@@ -221,9 +207,7 @@ On-boarding Onnx Model on Acumos Plateform
 ====================
 
     .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Capture3.png
-        :width: 112px
-        :align: center
-        :height: 63px
+ 
 
 
 ====================
@@ -255,9 +239,6 @@ On-boarding Onnx Model on Acumos Plateform
 ====================
 
     .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Capture4.png
-        :width: 112px
-        :align: center
-        :height: 63px
 
 
 ====================
@@ -275,9 +256,7 @@ Filling skeleton client file
 ====================
 
     .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Capture5.png
-        :width: 112px
-        :align: center
-        :height: 63px
+
 
 The "Onnx model protobuf import" is automatiquely imported (namedModel_Model_pb2.py):
 
@@ -447,9 +426,7 @@ Command lines
 
 
     .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Commandes.png
-        :width: 112px
-        :align: center
-        :height: 63px
+
 
 
 ====================
@@ -477,9 +454,6 @@ bvlcGoogleNet_Model example
 
 
     .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/bvlc.png
-        :width: 112px
-        :align: center
-        :height: 63px
 
 
 ====================
@@ -524,9 +498,6 @@ super_resolution_zoo_Model example
 
 
     .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/superResoZoo.png
-        :width: 112px
-        :align: center
-        :height: 63px
 
 
 ====================
@@ -556,9 +527,6 @@ Emotion Ferplus Model example
 
 
     .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/emotionFerPlus.png
-        :width: 112px
-        :align: center
-        :height: 63px
 
 
 ====================
