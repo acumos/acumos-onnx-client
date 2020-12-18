@@ -20,7 +20,10 @@
 Acumos Onnx Client
 ==================
 
+
 The User Guide is located on `PyPI <https://test.pypi.org/project/onnx4acumos/>`_.
+
+
 
 .. toctree::
        :maxdepth: 1
@@ -29,3 +32,5 @@ The User Guide is located on `PyPI <https://test.pypi.org/project/onnx4acumos/>`
        developer-guide
        user-guide
        tutorial/index
+
+

@@ -45,8 +45,7 @@ The ``acumos`` package can be installed with pip:
 .. code:: bash
 
     pip install onnx4acumos
-    cd acumos-onnx-client
-    ls
+
 
 
 Protocol Buffers
@@ -70,3 +69,7 @@ package <https://anaconda.org/anaconda/libprotobuf>`__ via:
 
 .. |Build Status| image:: https://jenkins.acumos.org/buildStatus/icon?job=acumos-onnx-client-tox-verify-master
    :target: https://jenkins.acumos.org/job/acumos-onnx-client-tox-verify-master/
+
+
+
+
