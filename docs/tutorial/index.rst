@@ -16,14 +16,18 @@
 .. limitations under the License.
 .. ===============LICENSE_END=========================================================
 
-.. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Acumos_logo_white.png
-
+.. https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Acumos_logo_white.png
 
 =============================
 onnx4acumos Tutorial
 =============================
 
-This tutorial provides a brief overview for onnx  models on-boarding on Acumos platform. It's meant to be followed linearly, and some code snippets depend on earlier imports and objects. Full onnx python client examples are available in the **``/acumos-onnx-client/acumos-package/onnx4acumos/FilledClientSkeletonsExemples/``** directory of the `Acumos onnx client repository <https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=tree>`__. 
+This tutorial provides a brief overview for onnx  models on-boarding on Acumos platform. 
+It's meant to be followed linearly, and some code snippets depend on earlier imports and objects. 
+Full onnx python client examples are available in the 
+**``/acumos-onnx-client/acumos-package/onnx4acumos/FilledClientSkeletonsExemples/``** 
+directory of the `Acumos onnx client repository 
+<https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=tree>`__. 
 
 
 .. note::  We assume that you have already installed **acumos onnx client** (onnx4acumos) python package.
@@ -53,7 +57,7 @@ In this tutorial, we use `ONNX GoogLeNet <https://github.com/onnx/models/tree/ma
 #. `More Examples`_
 
 
-================================
+..================================
 
 
 Introduction
@@ -64,116 +68,87 @@ Introduction
     create the onnx model bundle with all 
     the required files needed by Acumos platform.
 
+..===================
 
-===================
-
-    .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Image1.png
-
-
-    For more informations on Acumos see :   `Acumos AI Linux Fondation project  <https://www.acumos.org/>`__ , his  `Acumos AI Wiki <https://wiki.acumos.org/>`_ and his `Documentation <https://docs.acumos.org/en/latest/>`_.
+.. https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Image1.png
 
 
-==================
+.. For more informations on Acumos see :   `Acumos AI Linux Fondation project  <https://www.acumos.org/>`__ , his  `Acumos AI Wiki <https://wiki.acumos.org/>`_ and his `Documentation <https://docs.acumos.org/en/latest/>`_.
 
 
-On-boarding Onnx Model on Acumos Plateform
-==========================================
+..==================
+
+
+On-boarding Onnx Model on Acumos Platform
+=========================================
 
 .. topic:: On-boarding and Micro-services Architecture 
     
-    You can find on-boarding and micro-services architecture of the `Acumos AI Plateform <https://wiki.acumos.org/>`__   below :
+.. You can find on-boarding and micro-services architecture of the `Acumos AI Plateform <https://wiki.acumos.org/>`__   below :
+
+.. ====================
+
+    .. https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Image2.png
+
+.. ====================
 
 
-
-
-
-
-
-
-====================
-
-    .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Image2.png
-
-====================
-
-
-    **On-boarding and Micro-services  Flow**
+.. **On-boarding and Micro-services  Flow**
  
     
-============================
+.. ============================
+
+    .. https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Image3.png
+
+.. The data scientist can onboard his onnx models using the Acumos client library. After that, he can create a  micro-service and deploy it localy or on the cloud.
 
 
+.. ==============================
 
-    .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Image3.png
-
-
-    The data scientist can onboard his onnx models using the Acumos client library. After that, he can create a  micro-service and deploy it localy or on the cloud.
-
-
-==============================
-
-
-
-    .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Image4.png
+    .. https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Image4.png
  
      
-    At the low level view, the E1 Client Library generate all necessary files in order to on-board the model (metadata, Model binary and Model protobuf definition) .  The onboarding server generate the "Model-solutionID" and provide it to Microservice Generation module in order to stock "Model-Docker"  image in Docker repositiory.  In paralell, the onboarding server save the model  in the Artifact Repository. 
+.. At the low level view, the E1 Client Library generate all necessary files in order to on-board the model (metadata, Model binary and Model protobuf definition) .  The onboarding server generate the "Model-solutionID" and provide it to Microservice Generation module in order to stock "Model-Docker"  image in Docker repositiory.  In paralell, the onboarding server save the model  in the Artifact Repository. 
 
-
-====================
-
-
+.. ====================
 
 .. topic:: Onboarding Onnx Model in Acumos first step
  
-    onnx4acumos is a python program that allows you to on-board an onnx model on an Acumos platform. Based on the Acumos python client, we developed this python script able to create the onnx model bundle with all the required files needed by Acumos platform.
+onnx4acumos is a python program ('onx4acumos') that allows you to on-board an onnx model on an Acumos platform.
+..Based on the Acumos python client, we developed this python script able to create the onnx 
+..model bundle with all the required files needed by Acumos platform.
 
 
-====================
+.. ====================
 
     .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Capture1.png
 
-
-
-===========================
+.. ===========================
 
     bvlcGoogleNet_model locally dumped with input model file example : 
-
     
         .. code:: bash
 
             onnx4acumos  OnnxModels/bvlcGoogleNet_model.onnx -f input/cat.jpg
-
-
-
-===========================
-
+.. ===========================
 
     bvlcGoogleNet_model on-boarded model with micro-service activation example : 
-
     
         .. code:: bash
 
             onnx4acumos  OnnxModels/bvlcGoogleNet_model.onnx -push -ms 
 
-
-====================
-
+.. ====================
 
     This script takes the onnx model as input as well as optional parameters (-f data from the input file for the model input file or -push to download the model on Acumos platform and -ms for the activation of the micro-service). The default parameter (-dump) allows the bundle to be saved locally. In this case, the "ModelName" directory is created and contain all the files needed to test the onnx model locally as you can see below.
 
-
-
-
-====================
-
+..====================
 
 .. topic:: "ModelName" directory contents
  
     You can find "ModelName"  directory contents description below :
 
-
-====================
+..====================
 
     .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Capture2.png
 
@@ -208,13 +183,7 @@ On-boarding Onnx Model on Acumos Plateform
 
     .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Capture3.png
  
-
-
 ====================
-
-
-
-
 
     In this directory, you cand find :
         - Input/Input.data file (the input data file provided as onnx4acumos parameter), 
