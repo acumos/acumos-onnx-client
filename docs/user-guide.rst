@@ -45,8 +45,6 @@ The ``acumos`` package can be installed with pip:
 .. code:: bash
 
     pip install onnx4acumos
-    cd acumos-onnx-client
-    ls
 
 
 Protocol Buffers
