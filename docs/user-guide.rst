@@ -23,8 +23,15 @@ onnx4acumos
 
 |Build Status|
 
+.. ``onnx4acumos`` is a client library that allows modelers to push their onnx models
+.. to the `Acumos platform <https://www.acumos.org/>`__.
+
+
 ``onnx4acumos`` is a client library that allows modelers to push their onnx models
-to the `Acumos platform <https://www.acumos.org/>`__.
+on an Acumos platform <https://www.acumos.org/>`__. For more informations on Acumos see :
+`Acumos AI Linux Fondation project  <https://www.acumos.org/>`__ ,
+his  `Acumos AI Wiki <https://wiki.acumos.org/>`_
+and his `Documentation <https://docs.acumos.org/en/latest/>`_.
 
 Installation
 ============
@@ -45,8 +52,6 @@ The ``acumos`` package can be installed with pip:
 .. code:: bash
 
     pip install onnx4acumos
-    cd acumos-onnx-client
-    ls
 
 
 Protocol Buffers
