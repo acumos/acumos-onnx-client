@@ -338,6 +338,7 @@ def run_app_cli():
    # Dump session call
    templateSessionDump = "session.dump"
    newSessionDump = "   session.dump(model, \'" + modelFileName.split(".")[0] + "\',\'" + modelFileName.split(".")[0] + "/dumpedModel\', requirements )\n"
+   newSessionDump += "   session.dump_zip(model, \'" + modelFileName.split(".")[0] + "\',\'" + modelFileName.split(".")[0] + "/"+ modelFileName.split(".")[0]+ ".zip\', requirements )\n"
 
    # Push session call
    templateSessionPush = "session.push"
