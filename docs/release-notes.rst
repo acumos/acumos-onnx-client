@@ -20,6 +20,37 @@
 Acumos ONNX Client Release Notes
 ================================
 
+v0.0.7 5 January 2021
+=====================
+
+* Modifying documentation
+
+v0.0.6, 5 January 2021
+======================
+
+* Adding zip file in onnx model name directory
+* re-arrange index and user-guide rst file
+
+v0.0.5, 18 December 2020
+========================
+
+* Image update size
+
+v0.0.4, 18 December 2020
+========================
+
+* Image documentation fix
+
+v0.0.3, 18 December 2020
+========================
+
+* Documentation update fix
+
+v0.0.2, 17 December 2020
+========================
+
+* add import, fix license header and other defects
+
 v0.0.1, 15 December 2020
 ========================
 
