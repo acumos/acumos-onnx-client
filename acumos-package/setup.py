@@ -72,7 +72,6 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
-        'Programming Language :: Python :: 3.9',
         'License :: OSI Approved :: Apache Software License',
     ],
     description='Acumos ONNX client library for pushing Onnx models in Acumos',
@@ -100,7 +99,7 @@ setup(
     name='onnx4acumos',
     packages=find_packages(),
     package_data={'onnx4acumos': [path_join('Templates', '*.py')]},
-    python_requires='>=3.6, <3.10',
+    python_requires='>=3.6, <3.9',
     url='https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git',
     version=__version__,
 )

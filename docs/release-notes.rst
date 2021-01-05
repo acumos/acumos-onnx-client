@@ -20,8 +20,13 @@
 Acumos ONNX Client Release Notes
 ================================
 
-v0.0.7 5 January 2021
-=====================
+v0.0.8, 5 January 2021
+======================
+
+* fix documentation
+
+v0.0.7, 5 January 2021
+======================
 
 * Modifying documentation
 

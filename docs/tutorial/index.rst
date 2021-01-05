@@ -32,23 +32,11 @@ We assume that you have already installed ``onnx4acumos`` package.
 In this tutorial, we use `ONNX GoogLeNet <https://github.com/onnx/models/tree/master/vision/classification/inception_and_googlenet/googlenet>`__
 (source Caffe BVLC GoogLeNet ==> Caffe2 GoogLeNet ==> ONNX GoogLeNet) as example.
 
-#.  `Introduction`_
 #.  `On-boarding Onnx Model on Acumos Platform`_
 #.  `Filling skeleton client file`_
 #.  `Command lines`_
 #.  `bvlcGoogleNet_Model example`_
 #.  `More Examples`_
-
-Introduction
-============
-
-Based on the ``acumos`` python client, we built ``onnx4acumos`` client able to create the onnx model bundle with all the
-required files needed by Acumos platform.
-
-When you used ``onnx4acumos``, you can choose to on-board your Onnx model in Acumos with or whithout micro-service creation
-(CLI on-boarding). Or you can choose to save your Acumos model bundle locally for later manual on-boarding (Web-onboarding).
-It that case ``onnx4acumos`` will create a ModelName Directory in which you will find the Acumos model bundle and all the
-necessary files to test the Acumos onnx model runner locally.
 
 On-boarding Onnx Model on Acumos Platform
 =========================================
@@ -79,15 +67,15 @@ An Acumos model bundle is also created locally and ready to be on-boarded in Acu
 
 You can find "ModelName" directory contents description below :
 
+
 .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Capture2.png
 
 In this directory, you cand find :
         - ModelName_OnnxModelOnboarding.py Python file,
         - Dumped Model directory(model bundle),
-        - Zipped model bundle, 
+        - Zipped model bundle(ModelName.zip) , 
         - ModelName_OnnxClient directory.
 
-All are described in the picture above.
 
 In our bvlcGoogleNet_model example, the local server part can be started quite simply as follows:
 
@@ -114,6 +102,7 @@ You can find the python client skeleton file filling desciptions below :
 .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Capture4.png
 
 Here is the python client skeleton file that must be completed in order to communicate with server:
+
 
 .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Capture5.png
 
@@ -250,7 +239,7 @@ You can find all command lines for our bvlcGoogleNet_model example below :
 
 
 bvlcGoogleNet_Model example
-===========================
+:wq!===========================
 
 .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/bvlc.png
 
