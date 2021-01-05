@@ -20,14 +20,14 @@
 onnx4acumos Tutorial
 ====================
 
-This tutorial provides a brief overview for onnx  models on-boarding on Acumos platform.
+This tutorial explains how to on-board an onnx model in an Acumos platform with microservice creation.
 It's meant to be followed linearly, and some code snippets depend on earlier imports and objects.
 Full onnx python client examples are available in the
 **``/acumos-onnx-client/acumos-package/onnx4acumos/FilledClientSkeletonsExemples/``**
 directory of the `Acumos onnx client repository
 <https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=tree>`__.
 
-We assume that you have already installed **acumos onnx client** (onnx4acumos) python package.
+We assume that you have already installed ``onnx4acumos`` package.
 
 In this tutorial, we use `ONNX GoogLeNet <https://github.com/onnx/models/tree/master/vision/classification/inception_and_googlenet/googlenet>`__
 (source Caffe BVLC GoogLeNet ==> Caffe2 GoogLeNet ==> ONNX GoogLeNet) as example.
@@ -42,52 +42,62 @@ In this tutorial, we use `ONNX GoogLeNet <https://github.com/onnx/models/tree/ma
 Introduction
 ============
 
-Based on the acumos python client, we built onnx4acumos client able to create the onnx model
-bundle with all the required files needed by Acumos platform.
+Based on the ``acumos`` python client, we built ``onnx4acumos`` client able to create the onnx model bundle with all the
+required files needed by Acumos platform.
+
+When you used ``onnx4acumos``, you can choose to on-board your Onnx model in Acumos with or whithout micro-service creation
+(CLI on-boarding). Or you can choose to save your Acumos model bundle locally for later manual on-boarding (Web-onboarding).
+It that case ``onnx4acumos`` will create a ModelName Directory in which you will find the Acumos model bundle and all the
+necessary files to test the Acumos onnx model runner locally.
 
 On-boarding Onnx Model on Acumos Platform
 =========================================
 
-onnx4acumos is a python program that allows you to on-board an onnx model on an Acumos platform and to transform
-your model as a microservice.
+bvlcGoogleNet_model on-boarded in Acumos platform with micro-service activation :
 
-    bvlcGoogleNet_model locally dumped with input model file example : 
+.. code:: bash
 
-        .. code:: bash
+     onnx4acumos  OnnxModels/bvlcGoogleNet_model.onnx -push -ms
 
-            onnx4acumos  OnnxModels/bvlcGoogleNet_model.onnx -f input/cat.jpg
+In this command line the push parameter is used to on-board the Onnx model directly in Acumos (CLI on-boarding) and the -ms parameter
+is used to launch the micro-service creation in Acumos right after the on-boarding.
 
-    bvlcGoogleNet_model on-boarded model with micro-service activation example :
+To use the push parameter you must add your Acumos on-boarding url in the acumos_onnx_onboarding.py file. This on-boarding url can
+be found in your Acumos instance in the on-boarding panel.
 
-        .. code:: bash
+bvlcGoogleNet_model locally dumped with input model file :
 
-            onnx4acumos  OnnxModels/bvlcGoogleNet_model.onnx -push -ms
+.. code:: bash
 
-This script takes the onnx model as input as well as optional parameters (-f data from the input file for the model
-input file or -push to download the model on Acumos platform and -ms for the activation of the micro-service).
-The default parameter (-dump) allows the bundle to be saved locally. In this case, the "ModelName" directory is
-created and contain all the files needed to test the onnx model locally as you can see below.
+     onnx4acumos  OnnxModels/bvlcGoogleNet_model.onnx -f input/cat.jpg
 
-You can find "ModelName"  directory contents description below :
+Thanks to the command line above a "ModelName" directory is created and contain all the files needed to test the onnx model locally, 
+the -f parameter is used to add an input data file in the ModelName_OnnxClient folder.
 
-    .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Capture2.png
+An Acumos model bundle is also created locally and ready to be on-boarded in Acumos manually (Web onboarding). The default parameter
+(-dump) allows the bundle to be saved locally.
+
+You can find "ModelName" directory contents description below :
+
+.. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Capture2.png
 
 In this directory, you cand find :
         - ModelName_OnnxModelOnboarding.py Python file,
-        - Dumped Model directory,
-        - ModelName_OnnxClient directory
+        - Dumped Model directory(model bundle),
+        - Zipped model bundle, 
+        - ModelName_OnnxClient directory.
 
 All are described in the picture above.
 
 In our bvlcGoogleNet_model example, the local server part can be started quite simply as follows:
 
-    .. code:: bash
+.. code:: bash
 
-         acumos_model_runner bvlcGoogleNet_Model/dumpedModel/bvlcGoogleNet_Model/
+    acumos_model_runner bvlcGoogleNet_Model/dumpedModel/bvlcGoogleNet_Model/
 
 You can find "ModelName_OnnxClient"  directory contents description below :
 
-    .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Capture3.png
+.. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Capture3.png
 
 In this directory, you cand find :
         - Input/Input.data file (the input data file provided as onnx4acumos parameter),
@@ -101,22 +111,22 @@ Filling skeleton client file
 
 You can find the python client skeleton file filling desciptions below :
 
-    .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Capture4.png
+.. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Capture4.png
 
 Here is the python client skeleton file that must be completed in order to communicate with server:
 
-    .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Capture5.png
+.. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Capture5.png
 
 The "Onnx model protobuf import" is automatically imported (namedModel_Model_pb2.py) thanks to the first ligne of the
 skeleton "import bvlcGoogleNet_Model_pb2 as pb"
 
-All "steps" in order to fill the skeleton of our ONNX GoogLeNet as example are discribed below. You must filled the part
+All "steps" in order to fill the skeleton of our ONNX GoogLeNet example are discribed below. You must filled the part
 between two lines of "***********"
 
 First import your own needed libraries:
 =======================================
 
-    .. code:: python
+.. code:: python
 
         # Import your own needed library below
         "**************************************"
@@ -129,7 +139,7 @@ First import your own needed libraries:
 Second, define your own needed methods:
 =======================================
 
-    .. code:: python
+.. code:: python
 
         # Define your own needed method below
         "**************************************"
@@ -162,7 +172,7 @@ Second, define your own needed methods:
 Third, define Preprocessing method:
 ===================================
 
-    .. code:: python
+.. code:: python
 
         # Preprocessing method define
         def preprocessing(preProcessingInputFileName: str):
@@ -185,7 +195,7 @@ Third, define Preprocessing method:
 Fourth, define Postprocessing method:
 =====================================
 
-    .. code:: python
+.. code:: python
 
          # Postprocessing method define
         def postprocessing(postProcessingInput, outputFileName: str)-> bool:
@@ -212,7 +222,7 @@ Fourth, define Postprocessing method:
 And finally, redefine the REST URL if necessary (by default, localhost on port 3330):
 =====================================================================================
 
-    .. code:: python
+.. code:: python
 
         restURL = "http://localhost:3330/model/methods/run_bvlcGoogleNet_Model_OnnxModel"
 
@@ -226,9 +236,9 @@ correspond to  **'off-road motorbike, mountain bike, all-terrain bike, off-roade
 Command lines
 =============
 
-  You can find all command lines for our bvlcGoogleNet_model example below :
+You can find all command lines for our bvlcGoogleNet_model example below :
 
-    .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Commandes.png
+.. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Commandes.png
 
 .. code:: bash
 
@@ -242,7 +252,7 @@ Command lines
 bvlcGoogleNet_Model example
 ===========================
 
-    .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/bvlc.png
+.. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/bvlc.png
 
 In our example above :
 
@@ -262,7 +272,7 @@ Below are some additional examples.
 super_resolution_zoo_Model example
 ==================================
 
-    .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/superResoZoo.png
+.. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/superResoZoo.png
 
 .. code:: bash
 
@@ -271,7 +281,7 @@ super_resolution_zoo_Model example
 Emotion Ferplus Model example
 =============================
 
-    .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/emotionFerPlus.png
+.. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/emotionFerPlus.png
 
 .. code:: bash
 
@@ -282,9 +292,3 @@ Emotion Ferplus Model example
 
 That's all  :-)
 ===============
-
-
-
-
-
-
