@@ -32,34 +32,32 @@ We assume that you have already installed ``onnx4acumos`` package.
 In this tutorial, we use `ONNX GoogLeNet <https://github.com/onnx/models/tree/master/vision/classification/inception_and_googlenet/googlenet>`__
 (source Caffe BVLC GoogLeNet ==> Caffe2 GoogLeNet ==> ONNX GoogLeNet) as example.
 
+Download the file located in the googlenet model page : `here <https://github.com/onnx/models/blob/master/vision/classification/inception_and_googlenet/googlenet/model/googlenet-9.onnx>`__
+Then rename it "GoogLeNet.onnx".
+
 #.  `On-boarding Onnx Model on Acumos Platform`_
-#.  `Filling skeleton client file`_
-#.  `Command lines`_
-#.  `bvlcGoogleNet_Model example`_
+#.  `How to test & run your ONNX model`_
 #.  `More Examples`_
 
 On-boarding Onnx Model on Acumos Platform
 =========================================
 
-bvlcGoogleNet_model on-boarded in Acumos platform with micro-service activation :
+GoogLeNet model on-boarded in Acumos platform with micro-service activation :
 
 .. code:: bash
 
-     onnx4acumos  OnnxModels/bvlcGoogleNet_model.onnx -push -ms
+     onnx4acumos  OnnxModels/GoogLeNet.onnx -push -ms
 
 In this command line the push parameter is used to on-board the Onnx model directly in Acumos (CLI on-boarding) and the -ms parameter
 is used to launch the micro-service creation in Acumos right after the on-boarding.
 
-To use the push parameter you must add your Acumos on-boarding url in the acumos_onnx_onboarding.py file. This on-boarding url can
-be found in your Acumos instance in the on-boarding panel.
-
-bvlcGoogleNet_model locally dumped with input model file :
+GoogLeNet model locally dumped with input model file :
 
 .. code:: bash
 
-     onnx4acumos  OnnxModels/bvlcGoogleNet_model.onnx -f input/cat.jpg
+     onnx4acumos  OnnxModels/GoogLeNet.onnx -f input/cat.jpg
 
-Thanks to the command line above a "ModelName" directory is created and contain all the files needed to test the onnx model locally, 
+Thanks to the command line above a "ModelName" directory ("GoogLeNet" directory in our case) is created and contain all the files needed to test the onnx model locally, 
 the -f parameter is used to add an input data file in the ModelName_OnnxClient folder.
 
 An Acumos model bundle is also created locally and ready to be on-boarded in Acumos manually (Web onboarding). The default parameter
@@ -67,21 +65,16 @@ An Acumos model bundle is also created locally and ready to be on-boarded in Acu
 
 You can find "ModelName" directory contents description below :
 
-
 .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Capture2.png
 
 In this directory, you cand find :
-        - ModelName_OnnxModelOnboarding.py Python file,
-        - Dumped Model directory(model bundle),
-        - Zipped model bundle(ModelName.zip) , 
-        - ModelName_OnnxClient directory.
+        - ModelName_OnnxModelOnboarding.py : Python file used to onboard a model in Acumos by CLI and/or to dump the model bundle locally
+        - Dumped Model directory(model bundle) : Directory that contains all the required files nedded by an Acumos platform. 
+        - Zipped model bundle(ModelName.zip) : zip file (build from Dumped Model directory) ready to be onboarded in Acumos.
+        - ModelName_OnnxClient directory : Directory that contains all the necessary files to create a client/server able to test & run your model
 
-
-In our bvlcGoogleNet_model example, the local server part can be started quite simply as follows:
-
-.. code:: bash
-
-    acumos_model_runner bvlcGoogleNet_Model/dumpedModel/bvlcGoogleNet_Model/
+How to test & run your ONNX model
+=================================
 
 You can find "ModelName_OnnxClient"  directory contents description below :
 
@@ -94,8 +87,25 @@ In this directory, you cand find :
         - ModelName_pb2.py (Python pb2 protobuf file to be imported in the onnx client skeleton)
         - ModelName_OnnxClientSkeleton.py (The python client skeleton file that must be completed in order to communicate with server part)
 
-Filling skeleton client file
-============================
+
+If you want to test & run your ONNX model before on-boerded it in Acumos, you have to follow the two main steps.
+
+        1) Launch the model runner server
+        2) Fill the skeleton client file to create the ONNX client
+
+Launch model runner server
+==========================
+
+In our GoogLeNet model example, the local server part can be started quite simply as follows:
+
+.. code:: bash
+
+    acumos_model_runner GoogLeNet/dumpedModel/GoogLeNet/
+
+The acumos model runner will also create a swagger interface available at localhost:3330.
+
+Fill skeleton client file to create the ONNX client
+===================================================
 
 You can find the python client skeleton file filling desciptions below :
 
@@ -103,11 +113,10 @@ You can find the python client skeleton file filling desciptions below :
 
 Here is the python client skeleton file that must be completed in order to communicate with server:
 
-
 .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Capture5.png
 
 The "Onnx model protobuf import" is automatically imported (namedModel_Model_pb2.py) thanks to the first ligne of the
-skeleton "import bvlcGoogleNet_Model_pb2 as pb"
+skeleton "import GoogLeNet_pb2 as pb"
 
 All "steps" in order to fill the skeleton of our ONNX GoogLeNet example are discribed below. You must filled the part
 between two lines of "***********"
@@ -186,7 +195,7 @@ Fourth, define Postprocessing method:
 
 .. code:: python
 
-         # Postprocessing method define
+        # Postprocessing method define
         def postprocessing(postProcessingInput, outputFileName: str)-> bool:
             prob_1 = np.array(postProcessingInput.prob_1).reshape((1,1000))
             # Import the management of the Onnx data postprocessing below.
@@ -213,10 +222,10 @@ And finally, redefine the REST URL if necessary (by default, localhost on port 3
 
 .. code:: python
 
-        restURL = "http://localhost:3330/model/methods/run_bvlcGoogleNet_Model_OnnxModel"
+        restURL = "http://localhost:3330/model/methods/run_GoogLeNet_OnnxModel"
 
 The final name of the filled skeleton ModelName_OnnxClientSkeleton.py could be  ModelName_OnnxClient.py
-(the same name without Skeleton, bvlcGoogleNet_Model_OnnxClient.py for our bvlc GoogleNet Model example).
+(the same name without Skeleton, GoogleNet_OnnxClient.py for our GoogleNet Model example).
 
 More, for our exemple, you need to copy in client directory **imagenet1000_clsidx_to_labels.py** file,
 the dictionary of index results  to lables translation (example :  **'671'**  for the index result
@@ -231,15 +240,15 @@ You can find all command lines for our bvlcGoogleNet_model example below :
 
 .. code:: bash
 
-    onnx4acumos OnnxModels/bvlcGoogleNet_Model.onnx -f InputData/car4.jpg
-    acumos_model_runner bvlcGoogleNet_Model/dumpedModel/bvlcGoogleNet_Model/
-    cd  bvlcGoogleNet_Model/bvlcGoogleNet_Model_OnnxClient
+    onnx4acumos OnnxModels/GoogleNet.onnx -f InputData/car4.jpg 
+    acumos_model_runner GoogLeNet/dumpedModel/GoogleNet/ ## Lanch the model runner server
+    cd  GoogLeNet/GoogLeNet_OnnxClient
     ls
-    python bvlcGoogleNet_Model_OnnxClient.py -f input/car4.jpg
+    python GoogLeNet_OnnxClient.py -f input/car4.jpg ## Launch client and send input data
 
 
-bvlcGoogleNet_Model example
-===========================
+GoogLeNet example
+=================
 
 .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/bvlc.png
 
@@ -247,11 +256,11 @@ In our example above :
 
 .. code:: bash
 
-    python bvlcGoogleNet_Model_OnnxClient.py -f input/car4.jpg
-    python bvlcGoogleNet_Model_OnnxClient.py -f input/BM4.jpeg
-    python bvlcGoogleNet_Model_OnnxClient.py -f input/espresso.jpeg
-    python bvlcGoogleNet_Model_OnnxClient.py -f input/cat.jpg
-    python bvlcGoogleNet_Model_OnnxClient.py -f input/pesan3.jpg
+    python GoogLeNet_OnnxClient.py -f input/car4.jpg
+    python GoogLeNet_OnnxClient.py -f input/BM4.jpeg
+    python GoogLeNet_OnnxClient.py -f input/espresso.jpeg
+    python GoogLeNet_OnnxClient.py -f input/cat.jpg
+    python GoogLeNet_OnnxClient.py -f input/pesan3.jpg
 
 More Examples
 =============

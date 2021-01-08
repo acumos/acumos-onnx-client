@@ -31,29 +31,23 @@ and his `Documentation <https://docs.acumos.org/en/latest/>`_.
 Based on the ``acumos`` python client, we built ``onnx4acumos`` client able to create the onnx model bundle with all the
 required files needed by Acumos platform.
 
-When you used ``onnx4acumos``, you can choose to on-board your Onnx model in Acumos with or whithout micro-service creation
-(CLI on-boarding). Or you can choose to save your Acumos model bundle locally for later manual on-boarding (Web-onboarding).
+When you used ``onnx4acumos``, you can choose to on-board your Onnx model directly in Acumos with or whithout micro-service 
+creation (CLI on-boarding). Or you can choose to save your Acumos model bundle locally for later manual on-boarding (Web-onboarding).
 It that case ``onnx4acumos`` will create a ModelName Directory in which you will find the Acumos model bundle and all the
 necessary files to test the Acumos onnx model bundle locally.
 
 Installation
 ============
 
-The main requirement to install ``onnx4acumos`` is to install ``acumos`` python package and his dependancies prior.
-Please refer to `acumos python package <https://www.pypi.org/project/acumos/>`__
+The main requirements to install ``onnx4acumos`` is to install first the following dependancies :
 
-Once the ``acumos`` package is installed, you can install ``onnx4acumos`` with pip:
+onnx, zipp, acumos, acumos-model-runner, numpy, requests, protobuf, dill, appdirs, filelock, typing-inspect, grpcio, onnxruntime
+
+Once it is done, you can install ``onnx4acumos`` with pip:
 
 .. code:: bash
 
     pip install onnx4acumos
-
-If you want to test the onnx model bundle you have also to install the ``acumos_model_runner``, it will create a swagger
-interface available at : localhost:3330/model/methods/run_ModelName. However this ``acumos_model_runner`` is not mandatory to
-onboard and create the micro-service in Acumos.
-Please efer to `acumos_model_runner <https://pypi.org/project/acumos-model-runner/>`__
-
-
 
 .. |Build Status| image:: https://jenkins.acumos.org/buildStatus/icon?job=acumos-onnx-client-tox-verify-master
    :target: https://jenkins.acumos.org/job/acumos-onnx-client-tox-verify-master/
