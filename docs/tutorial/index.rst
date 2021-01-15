@@ -29,11 +29,7 @@ directory of the `Acumos onnx client repository
 
 We assume that you have already installed ``onnx4acumos`` package.
 
-In this tutorial, we use `ONNX GoogLeNet <https://github.com/onnx/models/tree/master/vision/classification/inception_and_googlenet/googlenet>`__
-(source Caffe BVLC GoogLeNet ==> Caffe2 GoogLeNet ==> ONNX GoogLeNet) as example.
-
-Download the file located in the googlenet model page : `here <https://github.com/onnx/models/blob/master/vision/classification/inception_and_googlenet/googlenet/model/googlenet-9.onnx>`__
-Then rename it "GoogLeNet.onnx".
+In this tutorial, we use `ONNX super_resolution model <https://github.com/onnx/models/tree/master/vision/super_resolution/sub_pixel_cnn_2016>`__ as example.
 
 #.  `On-boarding Onnx Model on Acumos Platform`_
 #.  `How to test & run your ONNX model`_
@@ -42,22 +38,56 @@ Then rename it "GoogLeNet.onnx".
 On-boarding Onnx Model on Acumos Platform
 =========================================
 
-GoogLeNet model on-boarded in Acumos platform with micro-service activation :
+Clone the acumos-onnx-client from gerrit
 
 .. code:: bash
 
-     onnx4acumos  OnnxModels/GoogLeNet.onnx -push -ms
+     git clone "ssh://your_gerrit_login@gerrit.acumos.org:29418/acumos-onnx-client" && scp -p -P 29418 your_gerrit_login@gerrit.acumos.org:hooks/commit-msg "acumos-onnx-client/.git/hooks/"
+     or
+     git clone "ssh://your_gerrit_login@gerrit.acumos.org:29418/acumos-onnx-client"
+
+You will need the two following file for this tutorial
+
+- The model located at /acumos-onnx-client/acumos-package/onnx4acumos/OnnxModels/super_resolution_zoo.onnx
+- A configuration file located at /acumos-onnx-client/acumos-package/onnx4acumos/Templates/onnx4acumos.ini
+
+For the first version of onnx4acumos client, this configuration file is mandatory whatever the kind of on-boarding you used (CLI ro WEB)
+
+onnx4acumos.ini look like :
+
+.. code:: bash
+        [certificates]
+        CURL_CA_BUNDLE: /etc/ssl/certs/ca-certificates.crt
+
+        [proxy]
+        https_proxy: socks5h://127.0.0.1:8886/
+        http_proxy:  socks5h://127.0.0.1:8886/
+
+        [session]
+        push_api: https://acumos/onboarding-app/v2/models
+
+- certificates : location of acumos certificates generated during the installation, you can also let this parameter empty (CURL_CA_BUNDLE:) , you will just reveive a warning
+- proxy : The proxy you used to reach your acumos platform
+- session : the push API URL, available in Acumos GUI in the ON-BOARDING MODEL web page.
+
+
+On-board the super_resolution model in Acumos platform with micro-service activation :
+
+.. code:: bash
+
+     onnx4acumos super_resolution_zoo.onnx onnx4acumos.ini -push -ms
 
 In this command line the push parameter is used to on-board the Onnx model directly in Acumos (CLI on-boarding) and the -ms parameter
-is used to launch the micro-service creation in Acumos right after the on-boarding.
+is used to launch the micro-service creation in Acumos right after the on-boarding. If -ms is omitted, the model will be onboarded whithout micro-service generation. You will be
+prompted to enter your on-boarding token, this token can be retrieve in the ACUMOS GUI in your personal settings.
 
-GoogLeNet model locally dumped with input model file :
+Dump the super_resolution model locally with input model file :
 
 .. code:: bash
 
-     onnx4acumos  OnnxModels/GoogLeNet.onnx -f input/cat.jpg
+     onnx4acumos super_resolution_zoo.onnx onnx4acumos.ini -f input/cat.jpg
 
-Thanks to the command line above a "ModelName" directory ("GoogLeNet" directory in our case) is created and contain all the files needed to test the onnx model locally, 
+Thanks to the command line above a "ModelName" directory ("super_resolution_zoo" directory in our case) is created and contain all the files needed to test the onnx model locally, 
 the -f parameter is used to add an input data file in the ModelName_OnnxClient folder.
 
 An Acumos model bundle is also created locally and ready to be on-boarded in Acumos manually (Web onboarding). The default parameter
