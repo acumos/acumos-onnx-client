@@ -82,6 +82,7 @@ setup(
     install_requires=['protobuf',
                       'requests',
                       'numpy',
+                      'configparser',
                       'dill',
                       'appdirs',
                       'filelock',

@@ -39,6 +39,7 @@ from acumos.exc import AcumosError
 from collections.abc import Iterable
 from os.path import dirname, abspath, join as path_join,isdir
 from os import listdir
+import configparser
 
 
 
@@ -105,7 +106,57 @@ def modifOnnxPB(onnxInput,nb, prefixName = "res"):
       onnxInput[i].type.tensor_type.elem_type = i      
    return onnxInput
 
+def checkConfiguration(configFile:str):
+# Checking configuration file concistency 
+        
+    if not os.path.isfile(configFile):
+      print("Configuration file ", configFile," is not found")
+      exit()
+      
+    Config = configparser.ConfigParser()
 
+    Config.read(configFile)
+
+    sections = Config.sections()
+
+    errorMsg = f"\033[31mERROR : Bad configuration in " + configFile + " file :\n\n" + "\033[00m"
+    
+    Ok = True
+    
+    if 'certificates' in sections and 'proxy' in sections and  'session' in sections:
+       try:
+          os.environ['CURL_CA_BUNDLE'] = Config.get('certificates', 'CURL_CA_BUNDLE')
+       except:
+          errorMsg += "	'CURL_CA_BUNDLE' missing in section [certificates], exemple :\n		[certificates]\n		CURL_CA_BUNDLE: /etc/ssl/certs/ca-certificates.crt\n\n"
+          Ok = False
+       try:
+          os.environ['https_proxy'] = Config.get('proxy', 'https_proxy')
+       except:
+          errorMsg += "	'https_proxy' missing in section [proxy], exemple :\n		[proxy]\n		https_proxy: socks5h://127.0.0.1:8886/\n		http_proxy: socks5h://127.0.0.1:8886/\n\n"
+          Ok = False
+
+       try:
+          os.environ['http_proxy'] = Config.get('proxy', 'http_proxy')
+       except:
+          errorMsg += "	'http_proxy' missing in section: [proxy], exemple :\n		[proxy]\n		https_proxy: socks5h://127.0.0.1:8886/\n		http_proxy: socks5h://127.0.0.1:8886/\n\n"
+          Ok = False
+
+       try:
+          push_api = Config.get('session', 'push_api')
+       except:
+         errorMsg += "	'push_api' missing in section: [session], exemple :\n		[session]\n		push_api: https://acumos/onboarding-app/v2/models\n\n"
+         Ok = False
+
+    else:
+       errorMsg = f"\033[31mSections missing in " + configFile +" Configuration file :\033[00m\n 	All [certificates], [proxy] and [session] sections should be defined and filled (see onnx4acumos documentation)"
+       Ok = False
+    
+    if not Ok:
+       print(errorMsg)
+       exit()
+       
+    return Ok 
+    
 
 def run_app_cli():
 
@@ -127,6 +178,7 @@ def run_app_cli():
        if re.search("ms", arg):
            createMicroService = True
    modelPath = ""
+   configFile =""
    modelFileName = "Onnx model should be with .onnx extension or "
    for arg in argv:
        if re.search(".onnx", arg) and not re.search("onnx4acumos", arg):
@@ -135,17 +187,28 @@ def run_app_cli():
              print("Trying to push", modelPath.split(".")[0], "model on Acumos platform")
           else:
              print("Trying to dump", modelPath.split(".")[0], "model in dumpedModel directory")
+             
+   for arg in argv:
+       if re.search(".ini", arg):
+          configFile = arg             
+                    
 
    # Bad command line Help 
-   if modelPath == "":
-      print("Command line shoud be : onnx4acumos ModelName.onnx [-f input.data] [-push [-ms]]")
+   if modelPath == "" or configFile== "":
+      print("Command line shoud be : onnx4acumos ModelName.onnx configurationFile.ini [-f input.data] [-push [-ms]]")
       exit()
 
+   # Checking configuration File concistency
+   if not checkConfiguration(configFile):
+      print("Bad configuration file concistency : ",configFile, " (see onnx4acumos documentation to fill it)")     
+      exit()
+   
+   
    modelFileName = modelPath.split("/")[(len(modelPath.split("/")) - 1)]
 
    #Existence test of the provided Onnx model file
    if not os.path.isfile(modelPath):
-      print("Model file ", modelPath,"is not found")
+      print("Model file ", modelPath," is not found")
       exit()
 
    try:  
@@ -258,8 +321,10 @@ def run_app_cli():
    templateMethodSignature = "def runOnnxModel"
    newMethodSignature = "def run_" + modelFileName.split(".")[0] +"_OnnxModel(" + onnxInputParam + ")-> MultipleReturn:\n"
 
-
-
+   # Configuration File 
+   templateConfigFile = "configFile = " 
+   newConfigFile = "configFile = \"" + configFile + "\"\n"
+   
    # reshapedInput 
    templateReshapedInput = "    reshapedInput = np.array"
    newReshapedInput = ""
@@ -340,6 +405,7 @@ def run_app_cli():
    newSessionDump = "   session.dump(model, \'" + modelFileName.split(".")[0] + "\',\'" + modelFileName.split(".")[0] + "/dumpedModel\', requirements )\n"
    newSessionDump += "   session.dump_zip(model, \'" + modelFileName.split(".")[0] + "\',\'" + modelFileName.split(".")[0] + "/"+ modelFileName.split(".")[0]+ ".zip\', requirements )\n"
 
+
    # Push session call
    templateSessionPush = "session.push"
    newSessionPush = "   session.push(model, \'" + modelFileName.split(".")[0] + "\', requirements=requirements, options=opts)\n"
@@ -370,7 +436,13 @@ def run_app_cli():
    if not os.path.isdir(dirOnnx):
         subprocess.call(callMkdir,shell=True)
         print("Creation of model onnx directory : ", dirOnnx)
-
+   
+   # copy configuration file in model onnx directory 
+   cpCall = "cp " + configFile + " "+ dirOnnx 
+   subprocess.call(cpCall,shell=True)
+   # copy onnx model file in model onnx directory    
+   cpCall = "cp " + modelPath + " "+ dirOnnx 
+   subprocess.call(cpCall,shell=True)
 
    # Creation of the new onnxModelOnBoarding file with appropriate features 
    outputFileName = dirOnnx +"/"+ modelFileName.split(".")[0] + '_OnnxModelOnBoarding.py'
@@ -379,6 +451,8 @@ def run_app_cli():
    for inLine in inputFile:
       if re.search(templateMethodSignature, inLine):
          outputFile.write(newMethodSignature)
+      elif re.search(templateConfigFile, inLine):
+         outputFile.write(newConfigFile)
       elif re.search(templateOrt_Output, inLine):
          outputFile.write(newOrt_Output)
       elif re.search(templateReshapedOutput, inLine):
