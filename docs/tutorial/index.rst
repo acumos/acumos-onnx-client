@@ -29,12 +29,6 @@ directory of the `Acumos onnx client repository
 
 We assume that you have already installed ``onnx4acumos`` package.
 
-In this tutorial, we use `ONNX GoogLeNet <https://github.com/onnx/models/tree/master/vision/classification/inception_and_googlenet/googlenet>`__
-(source Caffe BVLC GoogLeNet ==> Caffe2 GoogLeNet ==> ONNX GoogLeNet) as example.
-
-Download the file located in the googlenet model page : `here <https://github.com/onnx/models/blob/master/vision/classification/inception_and_googlenet/googlenet/model/googlenet-9.onnx>`__
-Then rename it "GoogLeNet.onnx".
-
 #.  `On-boarding Onnx Model on Acumos Platform`_
 #.  `How to test & run your ONNX model`_
 #.  `More Examples`_
@@ -42,65 +36,101 @@ Then rename it "GoogLeNet.onnx".
 On-boarding Onnx Model on Acumos Platform
 =========================================
 
-GoogLeNet model on-boarded in Acumos platform with micro-service activation :
+Clone the acumos-onnx-client from gerrit
 
 .. code:: bash
 
-     onnx4acumos  OnnxModels/GoogLeNet.onnx -push -ms
+     git clone "ssh://your_gerrit_login@gerrit.acumos.org:29418/acumos-onnx-client" && scp -p -P 29418 your_gerrit_login@gerrit.acumos.org:hooks/commit-msg "acumos-onnx-client/.git/hooks/"
+     or
+     git clone "ssh://your_gerrit_login@gerrit.acumos.org:29418/acumos-onnx-client"
 
-In this command line the push parameter is used to on-board the Onnx model directly in Acumos (CLI on-boarding) and the -ms parameter
-is used to launch the micro-service creation in Acumos right after the on-boarding.
+You will need the two following files for this tutorial :
 
-GoogLeNet model locally dumped with input model file :
+- The model located at /acumos-onnx-client/acumos-package/onnx4acumos/OnnxModels/super_resolution_zoo.onnx
+- A configuration file located at /acumos-onnx-client/acumos-package/onnx4acumos/Templates/onnx4acumos.ini
+
+For the first version of onnx4acumos client, this configuration file is mandatory whatever the kind of on-boarding you used (CLI or WEB)
+
+onnx4acumos.ini looks like :
 
 .. code:: bash
 
-     onnx4acumos  OnnxModels/GoogLeNet.onnx -f input/cat.jpg
+        [certificates]
+        CURL_CA_BUNDLE: /etc/ssl/certs/ca-certificates.crt
 
-Thanks to the command line above a "ModelName" directory ("GoogLeNet" directory in our case) is created and contain all the files needed to test the onnx model locally, 
-the -f parameter is used to add an input data file in the ModelName_OnnxClient folder.
+        [proxy]
+        https_proxy: socks5h://127.0.0.1:8886/
+        http_proxy:  socks5h://127.0.0.1:8886/
 
-An Acumos model bundle is also created locally and ready to be on-boarded in Acumos manually (Web onboarding). The default parameter
-(-dump) allows the bundle to be saved locally.
+        [session]
+        push_api: https://acumos/onboarding-app/v2/models
 
-You can find "ModelName" directory contents description below :
+- certificates : location of acumos certificates generated during the installation,
+you can also let this parameter empty (CURL_CA_BUNDLE:), in that case you will just
+receive a warning
+- proxy : The proxy you used to reach your acumos platform
+- session : the on-boarding model push API URL, available in Acumos GUI in the ON-BOARDING MODEL web page.
+
+On-board, by Command Line, the super_resolution model in Acumos platform with micro-service activation :
+
+.. code:: bash
+
+     onnx4acumos super_resolution_zoo.onnx onnx4acumos.ini -push -ms
+
+In this command line the push parameter is used to on-board the Onnx model directly
+in Acumos (CLI on-boarding). You will be prompted to enter your on-boarding token
+: onboarding token = "your Acumos login":"authentication token" (example : acumos_user:a2a6a9e8f4gbg3c147eq9g3h).
+The "authentication token" can be retrieved in the ACUMOS GUI in your personal settings.
+The -ms parameter is used to launch the micro-service creation in Acumos right after the on-boarding.
+If -ms is omitted, the model will be on-boarded whithout micro-service generation.
+
+On-board, by web, the super_resolution model in Acumos platform :
+
+First you have to dump the super_resolution model locally:
+
+.. code:: bash
+
+     onnx4acumos super_resolution_zoo.onnx onnx4acumos.ini -dump -f input/cat.jpg
+
+Thanks to the command line above a "ModelName" directory ("super_resolution_zoo" directory in our case)
+is created and contain all the files needed to test the onnx model locally, the -f parameter is optional and
+is used to add an input data file in the ModelName_OnnxClient folder.
+
+An Acumos model bundle is also created locally and ready to be on-boarded in Acumos manually (Web onboarding).
+The default parameter -dump '(can be omitted) allows the bundle to be saved locally.
+
+You can find the "ModelName" directory contents description below :
 
 .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Capture2.png
 
 In this directory, you cand find :
         - ModelName_OnnxModelOnboarding.py : Python file used to onboard a model in Acumos by CLI and/or to dump the model bundle locally
-        - Dumped Model directory(model bundle) : Directory that contains all the required files nedded by an Acumos platform. 
+        - Dumped Model directory(model bundle) : Directory that contains all the required files nedded by an Acumos platform.
         - Zipped model bundle(ModelName.zip) : zip file (build from Dumped Model directory) ready to be onboarded in Acumos.
         - ModelName_OnnxClient directory : Directory that contains all the necessary files to create a client/server able to test & run your model
+
+The last thing to do is to drag and drop the Zipped model bundle in the "ON-BOARDING BY WEB" page of Acumos or use the browse function to on-board your
+model.
 
 How to test & run your ONNX model
 =================================
 
-You can find "ModelName_OnnxClient"  directory contents description below :
-
-.. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Capture3.png
-
-In this directory, you cand find :
-        - Input/Input.data file (the input data file provided as onnx4acumos parameter),
-        - ModelName.onnx file (the onnx model file provided as onnx4acumos parameter),
-        - ModelName.proto (protobuf file)
-        - ModelName_pb2.py (Python pb2 protobuf file to be imported in the onnx client skeleton)
-        - ModelName_OnnxClientSkeleton.py (The python client skeleton file that must be completed in order to communicate with server part)
-
-
-If you want to test & run your ONNX model before on-boerded it in Acumos, you have to follow the two main steps.
+This on-boarding client can also be used to test and run your ONNX model, regardless of whether you want to on-board it or not in Acumos.
+You have to follow the two main steps.
 
         1) Launch the model runner server
         2) Fill the skeleton client file to create the ONNX client
 
+
 Launch model runner server
 ==========================
 
-In our GoogLeNet model example, the local server part can be started quite simply as follows:
+We assume that you have already installed `acumos_model_runner <https://pypi.org/project/acumos-model-runner/>`__ package.
+The local server part can be started quite simply as follows:
 
 .. code:: bash
 
-    acumos_model_runner GoogLeNet/dumpedModel/GoogLeNet/
+    acumos_model_runner super_resolution_zoo/dumpedModel/super_resolution_zoo
 
 The acumos model runner will also create a swagger interface available at localhost:3330.
 
@@ -111,14 +141,12 @@ You can find the python client skeleton file filling desciptions below :
 
 .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Capture4.png
 
-Here is the python client skeleton file that must be completed in order to communicate with server:
+The filled python client skeleton file can be retrieved in the acumos-onnx-client folder :
+acumos-onnx-client/acumos-package/onnx4acumos/FilledClientSkeletonsExemples/super_resolution_zoo_OnnxClient.py
 
-.. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Capture5.png
+The "Onnx model protobuf import" is automatically imported (namedModel_Model_pb2.py)
 
-The "Onnx model protobuf import" is automatically imported (namedModel_Model_pb2.py) thanks to the first ligne of the
-skeleton "import GoogLeNet_pb2 as pb"
-
-All "steps" in order to fill the skeleton of our ONNX GoogLeNet example are discribed below. You must filled the part
+All "steps" in order to fill the skeleton of our ONNX super_resolution_zoo are discribed below. You must filled the part
 between two lines of "***********"
 
 First import your own needed libraries:
@@ -128,12 +156,12 @@ First import your own needed libraries:
 
         # Import your own needed library below
         "**************************************"
-        import imageio
-        from PIL import Image
-        import imagenet1000_clsidx_to_labels as idx_to_labels
-
+        from numpy import clip
+        import PIL
+        # torch imports
+        import torchvision.transforms as transforms
         "**************************************"
-   
+
 Second, define your own needed methods:
 =======================================
 
@@ -141,30 +169,8 @@ Second, define your own needed methods:
 
         # Define your own needed method below
         "**************************************"
-
-        def get_image(path):
-            """ Using path to image, return the RGB load image """
-            img = imageio.imread(path, pilmode='RGB')
-            image = Image.open(path)
-            image = image.resize((448, int(448 * image.height/image.width)))
-            image.show()
-            return img
-
-        # Pre-processing function for ImageNet models using numpy
-        def preprocess(img):
-            """ Preprocessing required on the images for inference with mxnet gluon
-            The function takes loaded image and returns processed tensor """
-
-            img = np.array(Image.fromarray(img).resize((224, 224))).astype(np.float32)
-            img[:, :, 0] -= 123.68
-            img[:, :, 1] -= 116.779
-            img[:, :, 2] -= 103.939
-            img[:,:,[0,1,2]] = img[:,:,[2,1,0]]
-            img = img.transpose((2, 0, 1))
-            img = np.expand_dims(img, axis=0)
-
-            return img
-
+        def to_numpy(tensor):
+             return tensor.detach().cpu().numpy() if tensor.requires_grad else tensor.cpu().numpy()
         "**************************************"
 
 Third, define Preprocessing method:
@@ -172,69 +178,90 @@ Third, define Preprocessing method:
 
 .. code:: python
 
-        # Preprocessing method define
-        def preprocessing(preProcessingInputFileName: str):
-            preProcessingInputFile = io.open(preProcessingInputFileName, "rb", buffering = 0)
-            preProcessingData = preProcessingInputFile.read()
-            preProcessingInput = io.BytesIO(preProcessingData)
-            # Import the management of the Onnx data preprocessing below.
-            # The "preProcessingOutput" variable must contain the preprocessing result with type found in run_xx_OnnxModel method signature below
-            "*************************************************************************************************"
-            path = preProcessingInputFileName
-            img = get_image(path)
-            img = preprocess(img)
-            preprocessingResult = img
-            "**************************************************************************************************"
-            # "PreProcessingOutput" variable affectation with the preprocessing result
-            preProcessingOutput  = preprocessingResult
-            preProcessingInputFile.close()
-            return preProcessingOutput
+    # Import the management of the Onnx data preprocessing below.
+    # The "preProcessingOutput" variable must contain the preprocessing result with type found in run_xx_OnnxModel method signature below
+    "*************************************************************************************************"
+    global img_cb, img_cr
+    img = PIL.Image.open(preProcessingInput)
+    resize = transforms.Resize([224, 224])
+    img = resize(img)
+    img.show()
+    img_ycbcr = img.convert('YCbCr')
+    img_y, img_cb, img_cr = img_ycbcr.split()
+    to_tensor = transforms.ToTensor()
+    img_y = to_tensor(img_y)
+    img_y.unsqueeze_(0)
+    preprocessingResult = to_numpy(img_y)
+    "**************************************************************************************************"
+
+    # "PreProcessingOutput" variable affectation with the preprocessing result
 
 Fourth, define Postprocessing method:
 =====================================
 
 .. code:: python
 
-        # Postprocessing method define
-        def postprocessing(postProcessingInput, outputFileName: str)-> bool:
-            prob_1 = np.array(postProcessingInput.prob_1).reshape((1,1000))
-            # Import the management of the Onnx data postprocessing below.
-            # The "postProcessingInput" variable must contain the data of the Onnx model result with type found in method signature below
-            "*************************************************************************************************"
-            prob = prob_1
-            prob = np.squeeze(prob)
-            a = np.argsort(prob)[::-1]
-            postProcessingResult = "\nResults : \n	1 : " + str(idx_to_labels.results[a[0]]) + " with " + str(int(prob[a[0]] * 100000)/1000) + " %   \n	2 : " + str(idx_to_labels.results[a[1]]) +  " with " + str(int(prob[a[1]] * 100000)/1000) + " %   \n	3 : " + str(idx_to_labels.results[a[2]]) +  " with " + str(int(prob[a[2]] * 100000)/1000) + " %   \n	4 : " + str(idx_to_labels.results[a[3]]) + " with " + str(int(prob[a[3]] * 100000)/1000) + "%\n"
-            print(postProcessingResult)
-            "*************************************************************************************************"
-            # "postProcessingResult" variable must be affected with the postprocessing result
-            # Save the processed data in new file
-            if type(postProcessingResult) == str:
-                outputFile = io.open(outputFileName.split(".")[0] +".data", "a")
-            else:
-                outputFile = io.open(outputFileName, "wb", buffering = 0)
-            outputFile.write(postProcessingResult)
-            outputFile.close()
-            return os.path.isfile(outputFileName)
+    # Import the management of the Onnx data postprocessing below.
+    # The "postProcessingInput" variable must contain the data of the Onnx model result with type found in method signature below
+    "*************************************************************************************************"
+    global img_cb, img_cr
+    img_out_y = output[0]
+    img_out_y = np.array((img_out_y[0] * 255.0))
+    img_out_y = clip(img_out_y,0, 255)
+    img_out_y = PIL.Image.fromarray(np.uint8(img_out_y), mode='L')
+    final_img = PIL.Image.merge(
+        "YCbCr", [
+        img_out_y,
+        img_cb.resize(img_out_y.size, PIL.Image.BICUBIC),
+        img_cr.resize(img_out_y.size, PIL.Image.BICUBIC),
+      ]).convert("RGB")
+    f=io.BytesIO()
+    final_img.save(f,format='jpeg')
+    imageOutputData = f.getvalue()
+    final_img.show()
+    postProcessingResult = imageOutputData
+    "*************************************************************************************************"
 
 And finally, redefine the REST URL if necessary (by default, localhost on port 3330):
 =====================================================================================
 
 .. code:: python
 
-        restURL = "http://localhost:3330/model/methods/run_GoogLeNet_OnnxModel"
+        restURL = "http://localhost:3330/model/methods/run_super_resolution_zoo_OnnxModel"
 
 The final name of the filled skeleton ModelName_OnnxClientSkeleton.py could be  ModelName_OnnxClient.py
-(the same name without Skeleton, GoogleNet_OnnxClient.py for our GoogleNet Model example).
-
-More, for our exemple, you need to copy in client directory **imagenet1000_clsidx_to_labels.py** file,
-the dictionary of index results  to lables translation (example :  **'671'**  for the index result
-correspond to  **'off-road motorbike, mountain bike, all-terrain bike, off-roader'**  for label result).
+(the same name without Skeleton, super_resolution_zoo_OnnxClient.py for our example).
 
 Command lines
 =============
 
-You can find all command lines for our bvlcGoogleNet_model example below :
+You can find all command lines for super_resolution_zoo example below :
+
+.. code:: bash
+
+    onnx4acumos super_resolution_zoo.onnx -f InputData/car4.jpg
+    acumos_model_runner super_resolution_zoo/dumpedModel/super_resolution_zoo/ ## Launch the model runner server
+    cd  GoogLeNet/GoogLeNet_OnnxClient
+    python super_resolution_zoo_OnnxClient.py -f input/car4.jpg ## Launch client and send input data
+
+super_resolution_zoo_Model example
+==================================
+
+.. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/superResoZoo.png
+
+.. code:: bash
+
+    python super_resolution_zoo_OnnxClient.py -f input/cat.jpg
+
+More Examples
+=============
+
+Below are some additional examples.
+
+GoogLeNet
+=========
+
+You can find all command lines for GoogleNetexample below :
 
 .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Commandes.png
 
@@ -245,10 +272,6 @@ You can find all command lines for our bvlcGoogleNet_model example below :
     cd  GoogLeNet/GoogLeNet_OnnxClient
     ls
     python GoogLeNet_OnnxClient.py -f input/car4.jpg ## Launch client and send input data
-
-
-GoogLeNet example
-=================
 
 .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/bvlc.png
 
@@ -261,20 +284,6 @@ In our example above :
     python GoogLeNet_OnnxClient.py -f input/espresso.jpeg
     python GoogLeNet_OnnxClient.py -f input/cat.jpg
     python GoogLeNet_OnnxClient.py -f input/pesan3.jpg
-
-More Examples
-=============
-
-Below are some additional examples.
-
-super_resolution_zoo_Model example
-==================================
-
-.. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/superResoZoo.png
-
-.. code:: bash
-
-    python super_resolution_zoo_OnnxClient.py -f input/cat.jpg
 
 Emotion Ferplus Model example
 =============================
