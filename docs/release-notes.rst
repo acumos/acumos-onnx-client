@@ -20,11 +20,11 @@
 Acumos ONNX Client Release Notes
 ================================
 
-v0.1.0, 18 January 2021
+v0.2.0, 18 January 2021
 =======================
 
-* added configuration file
-* added configuration file in documentation
+* Add configuration file
+* Add configuration file in documentation
 * Replace GoogleNet Example by super_resolution
 
 v0.0.9, 8 January 2021
