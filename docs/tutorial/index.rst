@@ -64,7 +64,7 @@ onnx4acumos.ini looks like :
 
         [session]
         push_api: https://acumos/onboarding-app/v2/models
-
+ 
 - certificates : location of acumos certificates generated during the installation,
 you can also let this parameter empty (CURL_CA_BUNDLE:), in that case you will just
 receive a warning

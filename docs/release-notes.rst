@@ -20,6 +20,11 @@
 Acumos ONNX Client Release Notes
 ================================
 
+v0.1.1, 19 January 2021
+=======================
+
+* fix unexpected unindent in long_description
+
 v0.1.0, 18 January 2021
 =======================
 
