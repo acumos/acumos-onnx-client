@@ -64,12 +64,15 @@ onnx4acumos.ini looks like :
 
         [session]
         push_api: https://acumos/onboarding-app/v2/models
+ 
 
-- certificates : location of acumos certificates generated during the installation,
+certificates : location of acumos certificates generated during the installation,
 you can also let this parameter empty (CURL_CA_BUNDLE:), in that case you will just
 receive a warning
-- proxy : The proxy you used to reach your acumos platform
-- session : the on-boarding model push API URL, available in Acumos GUI in the ON-BOARDING MODEL web page.
+
+proxy : The proxy you used to reach your acumos platform
+
+session : the on-boarding model push API URL, available in Acumos GUI in the ON-BOARDING MODEL web page.
 
 On-board, by Command Line, the super_resolution model in Acumos platform with micro-service activation :
 
