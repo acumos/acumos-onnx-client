@@ -68,13 +68,15 @@ onnx4acumos.ini looks like :
 
 certificates : location of acumos certificates generated during the installation,
 you can also let this parameter empty (CURL_CA_BUNDLE:), in that case you will just
-receive a warning
+receive a warning.
 
-proxy : The proxy you used to reach your acumos platform
+proxy : The proxy you used to reach your acumos platform.
 
-session : the on-boarding model push API URL, available in Acumos GUI in the ON-BOARDING MODEL web page.
+session : The on-boarding model push API URL, available in Acumos GUI in the ON-BOARDING MODEL page.
 
-On-board, by Command Line, the super_resolution model in Acumos platform with micro-service activation :
+To on-board, by CLI, the super_resolution model in Acumos platform with micro-service activation, use the following
+command line :
+
 
 .. code:: bash
 
@@ -85,9 +87,10 @@ in Acumos (CLI on-boarding). You will be prompted to enter your on-boarding toke
 : onboarding token = "your Acumos login":"authentication token" (example : acumos_user:a2a6a9e8f4gbg3c147eq9g3h).
 The "authentication token" can be retrieved in the ACUMOS GUI in your personal settings.
 The -ms parameter is used to launch the micro-service creation in Acumos right after the on-boarding.
-If -ms is omitted, the model will be on-boarded whithout micro-service generation.
+If -ms is omitted, the model will be on-boarded whithout micro-service generation.(don't worry, you can create 
+the micro-service later in Acumos))
 
-On-board, by web, the super_resolution model in Acumos platform :
+To on-board by web the super_resolution model in Acumos platform, follow the next step :
 
 First you have to dump the super_resolution model locally:
 
@@ -96,11 +99,11 @@ First you have to dump the super_resolution model locally:
      onnx4acumos super_resolution_zoo.onnx onnx4acumos.ini -dump -f input/cat.jpg
 
 Thanks to the command line above a "ModelName" directory ("super_resolution_zoo" directory in our case)
-is created and contain all the files needed to test the onnx model locally, the -f parameter is optional and
+is created and it contains all the files needed to test the onnx model locally, the -f parameter is optional and
 is used to add an input data file in the ModelName_OnnxClient folder.
 
 An Acumos model bundle is also created locally and ready to be on-boarded in Acumos manually (Web onboarding).
-The default parameter -dump '(can be omitted) allows the bundle to be saved locally.
+The default parameter -dump (can be omitted) allows the bundle to be saved locally.
 
 You can find the "ModelName" directory contents description below :
 
@@ -113,7 +116,7 @@ In this directory, you cand find :
         - Zipped model bundle(ModelName.zip) : zip file (build from Dumped Model directory) ready to be onboarded in Acumos.
         - ModelName_OnnxClient directory : Directory that contains all the necessary files to create a client/server able to test & run your model.
 
-The last thing to do is to drag and drop the Zipped model bundle in the "ON-BOARDING BY WEB" page of Acumos or use the browse function to on-board your
+Then The last thing to do is to drag and drop the Zipped model bundle in the "ON-BOARDING BY WEB" page of Acumos or use the browse function to on-board your
 model.
 
 How to test & run your ONNX model
@@ -122,10 +125,17 @@ How to test & run your ONNX model
 This on-boarding client can also be used to test and run your ONNX model, regardless of whether you want to on-board it or not in Acumos.
 You have to follow the two main steps, first Launch the model runner server and then fill the skeleton client file to create the ONNX client.
 
+We assume that:
+
+        - You have installed `acumos_model_runner <https://pypi.org/project/acumos-model-runner/>`__ package
+        - You have dumped the model bundle locally as explained above
+
+We use a client-server architecture to test & run onnx models, first you have to launch your model locally to create the server,
+ then you have to use a python sript as an onnx client to interact with the server.
+
 Launch model runner server
 ==========================
 
-We assume that you have already installed `acumos_model_runner <https://pypi.org/project/acumos-model-runner/>`__ package.
 The local server part can be started quite simply as follows:
 
 .. code:: bash
@@ -137,17 +147,14 @@ The acumos model runner will also create a swagger interface available at localh
 Fill skeleton client file to create the ONNX client
 ===================================================
 
-You can find the python client skeleton file filling desciptions below :
+You can find the python client skeleton file desciptions below :
 
 .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Capture4.png
 
-The filled python client skeleton file can be retrieved in the acumos-onnx-client folder :
-acumos-onnx-client/acumos-package/onnx4acumos/FilledClientSkeletonsExemples/super_resolution_zoo_OnnxClient.py
+This python client skeleton file is available in the following folder super_resolution_zoo/super_resolution_zoo_OnnxClient
 
-The "Onnx model protobuf import" is automatically imported (namedModel_Model_pb2.py)
-
-All "steps" in order to fill the skeleton of our ONNX super_resolution_zoo are discribed below. You must filled the part
-between two lines of "***********"
+All steps, in order to fill this python client skeleton, are discribed below. You must filled the part between two lines of "***********"
+You just have to copy/paste the following code snipset below in the right place of the skeleton file.
 
 First import your own needed libraries:
 =======================================
@@ -232,17 +239,19 @@ And finally, redefine the REST URL if necessary (by default, localhost on port 3
 The final name of the filled skeleton ModelName_OnnxClientSkeleton.py could be  ModelName_OnnxClient.py
 (the same name without Skeleton, super_resolution_zoo_OnnxClient.py for our example).
 
+The filled python client skeleton file can be retrieved in the acumos-onnx-client folder :
+acumos-onnx-client/acumos-package/onnx4acumos/FilledClientSkeletonsExemples/super_resolution_zoo_OnnxClient.py
+
 Command lines
 =============
 
-You can find all command lines for super_resolution_zoo example below :
+You can find all command lines to test & run onnx model super_resolution_zoo below :
 
 .. code:: bash
 
-    onnx4acumos super_resolution_zoo.onnx -f InputData/car4.jpg
+    onnx4acumos super_resolution_zoo.onnx onnx4acumos.ini -f InputData/cat.jpg
     acumos_model_runner super_resolution_zoo/dumpedModel/super_resolution_zoo/ ## Launch the model runner server
-    cd  GoogLeNet/GoogLeNet_OnnxClient
-    python super_resolution_zoo_OnnxClient.py -f input/car4.jpg ## Launch client and send input data
+    python super_resolution_zoo_OnnxClient.py -f input/cat.jpg ## Launch client and send input data
 
 super_resolution_zoo_Model example
 ==================================
@@ -257,6 +266,7 @@ More Examples
 =============
 
 Below are some additional examples.
+Post and Pre-processing methods are available in the Github folder : `onnx/models <https://github.com/onnx/models>`__
 
 GoogLeNet
 =========
@@ -267,10 +277,9 @@ You can find all command lines for GoogleNetexample below :
 
 .. code:: bash
 
-    onnx4acumos OnnxModels/GoogleNet.onnx -f InputData/car4.jpg 
+    onnx4acumos OnnxModels/GoogleNet.onnx onnx4acumos.ini -f InputData/car4.jpg 
     acumos_model_runner GoogLeNet/dumpedModel/GoogleNet/ ## Lanch the model runner server
     cd  GoogLeNet/GoogLeNet_OnnxClient
-    ls
     python GoogLeNet_OnnxClient.py -f input/car4.jpg ## Launch client and send input data
 
 .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/bvlc.png

@@ -49,5 +49,7 @@ Once it is done, you can install ``onnx4acumos`` with pip:
 
     pip install onnx4acumos
 
+remark : if you used Acumos CLIO you must used python3.6 with acumos 0.8.0 and acumos_model_runner 0.2.3
+
 .. |Build Status| image:: https://jenkins.acumos.org/buildStatus/icon?job=acumos-onnx-client-tox-verify-master
    :target: https://jenkins.acumos.org/job/acumos-onnx-client-tox-verify-master/
