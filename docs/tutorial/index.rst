@@ -260,8 +260,6 @@ super_resolution_zoo_Model example
 
 .. code:: bash
 
-    python super_resolution_zoo_OnnxClient.py -f input/cat.jpg
-
 More Examples
 =============
 
