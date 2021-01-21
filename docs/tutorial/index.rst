@@ -258,10 +258,6 @@ super_resolution_zoo_Model example
 
 .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/superResoZoo.png
 
-.. code:: bash
-
-    python super_resolution_zoo_OnnxClient.py -f input/cat.jpg
-
 More Examples
 =============
 
