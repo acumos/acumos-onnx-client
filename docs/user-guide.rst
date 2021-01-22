@@ -22,19 +22,21 @@ onnx4acumos
 
 |Build Status|
 
-``onnx4acumos`` is a client library that allows modelers to push their onnx models
-on an Acumos platform. For more informations on Acumos see :
-`Acumos AI Linux Fondation project  <https://www.acumos.org/>`__ ,
-his  `Acumos AI Wiki <https://wiki.acumos.org/>`_
+``onnx4acumos`` is a client library that allows modelers to on-board their onnx models
+on an Acumos platform and also to test and run their onnx models.
+
+For more informations on Acumos see :
+`Acumos AI Linux Fondation project  <https://www.acumos.org/>`__ , his  `Acumos AI Wiki <https://wiki.acumos.org/>`_
 and his `Documentation <https://docs.acumos.org/en/latest/>`_.
 
 Based on the ``acumos`` python client, we built ``onnx4acumos`` client able to create the onnx model bundle with all the
 required files needed by Acumos platform.
-
-When you used ``onnx4acumos``, you can choose to on-board your Onnx model directly in Acumos with or whithout micro-service 
+When you used ``onnx4acumos``, you can choose to on-board your onnx model directly in Acumos with or whithout micro-service 
 creation (CLI on-boarding). Or you can choose to save your Acumos model bundle locally for later manual on-boarding (Web-onboarding).
 It that case ``onnx4acumos`` will create a ModelName Directory in which you will find the Acumos model bundle and all the
-necessary files to test the Acumos onnx model bundle locally.
+necessary files to test and run the Acumos onnx model bundle locally.
+
+Micro-service generation in Acumos will transform your onnx model as a serving modle, based on docker, ready to be depoloyed.
 
 Installation
 ============
