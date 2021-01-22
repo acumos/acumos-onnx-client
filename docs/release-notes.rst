@@ -20,82 +20,9 @@
 Acumos ONNX Client Release Notes
 ================================
 
-
-v0.1.4, 22 January 2021
+v1.0.0, 22 January 2021
 =======================
 
-* last documentation modification
-
-v0.1.3, 21 January 2021
-=======================
-
-* fix documentation errors
-
-v0.1.2, 21 January 2021
-=======================
-
-* doc modification
-
-v0.1.1, 19 January 2021
-=======================
-
-* fix unexpected unindent in long_description
-
-v0.1.0, 18 January 2021
-=======================
-
-* added configuration file
-* added configuration file in documentation
-* Replace GoogleNet Example by super_resolution
-
-v0.0.9, 8 January 2021
-======================
-
-* documentation updates
-
-v0.0.8, 5 January 2021
-======================
-
-* fix documentation
-
-v0.0.7, 5 January 2021
-======================
-
-* Modifying documentation
-
-v0.0.6, 5 January 2021
-======================
-
-* Adding zip file in onnx model name directory
-* re-arrange index and user-guide rst file
-
-v0.0.5, 18 December 2020
-========================
-
-* Image update size
-
-v0.0.4, 18 December 2020
-========================
-
-* Image documentation fix
-
-v0.0.3, 18 December 2020
-========================
-
-* Documentation update fix
-
-v0.0.2, 17 December 2020
-========================
-
-* add import, fix license header and other defects
-
-v0.0.1, 15 December 2020
-========================
-
-* Initial files creation 'ACUMOS-3101 <https://jira.acumos.org/browse/ACUMOS-3101>'_
-* Acumos onnx onboarding creation 'ACUMOS-3101 <https://jira.acumos.org/browse/ACUMOS-3101>'_
-* Documents initialization 'ACUMOS-4215 <https://jira.acumos.org/browse/ACUMOS-4215>'_
+* First release 'ACUMOS-3101 <https://jira.acumos.org/browse/ACUMOS-3101>'_
 
 ========================
-
-

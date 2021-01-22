@@ -62,7 +62,6 @@ onnx4acumos.ini looks like :
 
         [session]
         push_api: https://acumos/onboarding-app/v2/models
- 
 
 **certificates :** location of acumos certificates generated during the installation,
 you can also let this parameter empty (CURL_CA_BUNDLE:), in that case you will just
@@ -72,7 +71,7 @@ receive a warning.
 
 **session** : The on-boarding model push API URL, available in Acumos GUI in the ON-BOARDING MODEL page.
 
-To on-board, by CLI, the super_resolution model in Acumos platform with micro-service activation, use the following
+To on-board, by CLI, the super_resolution_zoo model in Acumos platform with micro-service activation, use the following
 command line :
 
 
@@ -80,17 +79,17 @@ command line :
 
      onnx4acumos super_resolution_zoo.onnx onnx4acumos.ini -push -ms
 
-In this command line the push parameter is used to on-board the onnx model directly
+In this command line the -push parameter is used to on-board the onnx model directly
 in Acumos (CLI on-boarding). You will be prompted to enter your on-boarding token
 : onboarding token = "your Acumos login":"authentication token" (example : acumos_user:a2a6a9e8f4gbg3c147eq9g3h).
 The "authentication token" can be retrieved in the ACUMOS GUI in your personal settings.
 The -ms parameter is used to launch the micro-service creation in Acumos right after the on-boarding.
-If -ms is omitted, the model will be on-boarded whithout micro-service generation.(don't worry, you can create 
-the micro-service later in Acumos))
+If -ms is omitted, the model will be on-boarded whithout micro-service generation.
+(don't worry, you can create the micro-service later in Acumos))
 
-To on-board by web the super_resolution model in Acumos platform, follow the next step :
+To on-board by web the super_resolution_zoo model in Acumos platform, follow the next step :
 
-First you have to dump the super_resolution model locally :
+First you have to dump the super_resolution_zoo model locally :
 
 .. code:: bash
 
@@ -128,7 +127,7 @@ We assume that:
 - You have installed `acumos_model_runner <https://pypi.org/project/acumos-model-runner/>`__ package.
 - You have dumped the model bundle locally as explained above.
 
-We use a client-server architecture to test & run onnx models, first you have to launch your model runner locally to create the server,
+We use a client-server architecture to test and run onnx models, first you have to launch your model runner locally to create the server,
 then you have to use a python sript as an onnx client to interact with the server.
 
 Launch model runner server
@@ -149,10 +148,10 @@ You can find the python client skeleton file desciptions below :
 
 .. image:: https://gerrit.acumos.org/r/gitweb?p=acumos-onnx-client.git;a=blob_plain;f=docs/images/Capture4.png
 
-This python client skeleton file is available in the following folder **super_resolution_zoo/super_resolution_zoo_OnnxClient**
+This python client skeleton file is available in the following folder  **super_resolution_zoo/super_resolution_zoo_OnnxClient**
 
 All steps, in order to fill this python client skeleton, are described below. You must filled the part between two lines of "***********"
-You just have to copy/paste the following code snipset below in the right place of the skeleton file.
+You just have to copy/paste the following code snipsets below in the right place of your skeleton file.
 
 First import your own needed libraries:
 =======================================
@@ -248,7 +247,7 @@ Remark : To test super_resolution_zoo you must have a server X running on your l
 Command lines
 =============
 
-You can find all command lines to test & run onnx model super_resolution_zoo below :
+You can find all command lines to test and/ run onnx model super_resolution_zoo below :
 
 .. code:: bash
 
@@ -276,7 +275,7 @@ You can find all command lines for GoogleNetexample below :
 
 .. code:: bash
 
-    onnx4acumos OnnxModels/GoogleNet.onnx onnx4acumos.ini -f InputData/car4.jpg 
+    onnx4acumos OnnxModels/GoogleNet.onnx onnx4acumos.ini -f InputData/car4.jpg
     acumos_model_runner GoogLeNet/dumpedModel/GoogleNet/ ## Lanch the model runner server
     cd  GoogLeNet/GoogLeNet_OnnxClient
     python GoogLeNet_OnnxClient.py -f input/car4.jpg ## Launch client and send input data
