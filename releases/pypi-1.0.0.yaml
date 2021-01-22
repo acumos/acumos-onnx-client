@@ -1,0 +1,5 @@
+---
+pypi_project: onnx4acumos
+python_version: '3.8'
+version: 1.0.0
+log_dir: acumos-onnx-client-pypi-merge-master/19
