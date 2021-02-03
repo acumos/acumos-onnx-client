@@ -1,3 +1,21 @@
+# ===============LICENSE_START=======================================================
+# Acumos CC-BY-4.0
+# ===================================================================================
+# Copyright (C) 2020 Orange Intellectual Property. All rights reserved.
+# ===================================================================================
+# This Acumos documentation file is distributed by Orange
+# under the Creative Commons Attribution 4.0 International License (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://creativecommons.org/licenses/by/4.0
+#
+# This file is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ===============LICENSE_END=========================================================
+
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
@@ -22,14 +40,18 @@ import onnxruntime
 import onnxruntime.backend as backend
 
 def checkConfiguration(configFile:str):
-# Checking configuration file concistency 
-        
+# Checking configuration file concistency
+
+    if configFile == "":
+      print("Error : configFile variable should be initialized to push on acumos platform")
+      exit()
+
     if not os.path.isfile(configFile):
       print("Configuration file ", configFile," is not found")
       exit()
-      
-    global   push_api 
-         
+
+    global   push_api
+
     Config = configparser.ConfigParser()
 
     Config.read(configFile)
@@ -37,52 +59,46 @@ def checkConfiguration(configFile:str):
     sections = Config.sections()
 
     errorMsg = f"\033[31mERROR : Bad configuration in " + configFile + " file :\n\n" + "\033[00m"
-    
+
     Ok = True
-    
+
     if 'certificates' in sections and 'proxy' in sections and  'session' in sections:
        try:
           os.environ['CURL_CA_BUNDLE'] = Config.get('certificates', 'CURL_CA_BUNDLE')
        except:
-          errorMsg += "	'CURL_CA_BUNDLE' missing in section [certificates], exemple :\n		[certificates]\n		CURL_CA_BUNDLE: /etc/ssl/certs/ca-certificates.crt\n\n"
+          errorMsg += "	'CURL_CA_BUNDLE' missing in section [certificates], example :\n		[certificates]\n		CURL_CA_BUNDLE: /etc/ssl/certs/ca-certificates.crt\n\n"
           Ok = False
        try:
           os.environ['https_proxy'] = Config.get('proxy', 'https_proxy')
        except:
-          errorMsg += "	'https_proxy' missing in section [proxy], exemple :\n		[proxy]\n		https_proxy: socks5h://127.0.0.1:8886/\n		http_proxy: socks5h://127.0.0.1:8886/\n\n"
+          errorMsg += "	'https_proxy' missing in section [proxy], example :\n		[proxy]\n		https_proxy: socks5h://127.0.0.1:8886/\n		http_proxy: socks5h://127.0.0.1:8886/\n\n"
           Ok = False
 
        try:
           os.environ['http_proxy'] = Config.get('proxy', 'http_proxy')
        except:
-          errorMsg += "	'http_proxy' missing in section: [proxy], exemple :\n		[proxy]\n		https_proxy: socks5h://127.0.0.1:8886/\n		http_proxy: socks5h://127.0.0.1:8886/\n\n"
+          errorMsg += "	'http_proxy' missing in section: [proxy], example :\n		[proxy]\n		https_proxy: socks5h://127.0.0.1:8886/\n		http_proxy: socks5h://127.0.0.1:8886/\n\n"
           Ok = False
 
        try:
           push_api = Config.get('session', 'push_api')
        except:
-         errorMsg += "	'push_api' missing in section: [session], exemple :\n		[session]\n		push_api: https://acumos/onboarding-app/v2/models\n\n"
+         errorMsg += "	'push_api' missing in section: [session], example :\n		[session]\n		push_api: https://acumos/onboarding-app/v2/models\n\n"
          Ok = False
 
     else:
        errorMsg = f"\033[31mSections missing in " + configFile +" Configuration file :\033[00m\n 	All [certificates], [proxy] and [session] sections should be defined and filled (see onnx4acumos documentation)"
        Ok = False
-    
+
     if not Ok:
        print(errorMsg)
        exit()
-       
-    return Ok 
+
+    return Ok
 
 
-# Checking configuration file concistency  
-configFile = "onnx4acumos.ini"
 
-if not checkConfiguration(configFile):
-      print("Bad configuration file concistency : ",configFile, " (see onnx4acumos documentation to fill it)")     
-      exit()
-
-#Load provided onnx model 
+#Load provided onnx model
 modelFileName = "model.onnx"
 onnx_model = onnx.load(modelFileName)
 Elt = create_namedtuple("Elt", [('key', str),('value', float)])
@@ -107,7 +123,7 @@ def runOnnxModel(inputData: np.float32, inputData2: int )-> MultipleReturn:
     ort_Output = ort_session.run(reshapedInput)
     outputData = ort_Output[0].reshape(451584555)
     multipleReturn = MultipleReturn(output_label = Output_label, output_probability = convertDictListToNamedTupleList(Output_probability))
-    return multipleReturn 
+    return multipleReturn
 
 
 # check provided onnx model
@@ -118,8 +134,18 @@ if checkModel is not None:
    exit()
 
 # prepare Acumos Dump or Push session
-
+# Warning : if pushSession is True, the configuration file shoud be provided (see documentation)
+# and configFile variable below should be initialized in order to push the model on acumos platform
 pushSession = False
+
+# configuration file init 
+configFile = "onnx4acumos.ini"
+
+if pushSession:
+   # Checking configuration file concistency
+   checkConfiguration(configFile)
+else:
+   push_api = ""
 
 req_map = dict(onnx='onnx',onnxruntime='onnxruntime')
 
@@ -131,14 +157,14 @@ opts = Options(create_microservice=False)
 
 model = Model(runOnnxModel=runOnnxModel)
 
-if pushSession: 
+if pushSession:
    # Push onnx model on Acumos plateform
    print("Pushing onnx model on Acumos plateform on : ", push_api)
-   session.push(model, 'OnnxModel', requirements=requirements, options=opts) 
-else: 
+   session.push(model, 'OnnxModel', requirements=requirements, options=opts)
+else:
    # Dump onnx model in dumpedModel directory
    print("Dumping onnx model in dumpedModel directory")
-   session.dump(model, 'OnnxModel', '~/Acumos/onnx/onboardOnnxModel/dumpedModel', requirements ) 
+   session.dump(model, 'OnnxModel', '~/Acumos/onnx/onboardOnnxModel/dumpedModel', requirements )
 
 
 
