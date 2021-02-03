@@ -20,6 +20,13 @@
 Acumos ONNX Client Release Notes
 ================================
 
+v1.0.1, 05 February 2021
+========================
+
+* Avoid the use of configuration file when model bundle is dumped <https://jira.acumos.org/browse/ACUMOS-4317>'_
+* fix typo "Exemples" in folder <https://jira.acumos.org/browse/ACUMOS-4318>'_
+* fix typo "and/" in index file <https://jira.acumos.org/browse/ACUMOS-4320>'_
+
 v1.0.0, 22 January 2021
 =======================
 
