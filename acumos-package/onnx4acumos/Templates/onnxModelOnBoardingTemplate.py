@@ -23,11 +23,15 @@ import onnxruntime.backend as backend
 
 def checkConfiguration(configFile:str):
 # Checking configuration file concistency 
-        
+     
+    if configFile == "":
+      print("Error : configFile variable should be initialized to push on acumos platform")
+      exit()  
+              
     if not os.path.isfile(configFile):
       print("Configuration file ", configFile," is not found")
       exit()
-      
+         
     global   push_api 
          
     Config = configparser.ConfigParser()
@@ -75,12 +79,6 @@ def checkConfiguration(configFile:str):
     return Ok 
 
 
-# Checking configuration file concistency  
-configFile = "onnx4acumos.ini"
-
-if not checkConfiguration(configFile):
-      print("Bad configuration file concistency : ",configFile, " (see onnx4acumos documentation to fill it)")     
-      exit()
 
 #Load provided onnx model 
 modelFileName = "model.onnx"
@@ -118,8 +116,18 @@ if checkModel is not None:
    exit()
 
 # prepare Acumos Dump or Push session
-
+# Warning : if pushSession is True, the configuration file shoud be provided (see documentation) 
+# and configFile variable below should be initialized in order to push the model on acumos platform
 pushSession = False
+
+# configuration file init 
+configFile = "onnx4acumos.ini"
+
+if pushSession: 
+   # Checking configuration file concistency 
+   checkConfiguration(configFile)
+else:
+   push_api = ""
 
 req_map = dict(onnx='onnx',onnxruntime='onnxruntime')
 

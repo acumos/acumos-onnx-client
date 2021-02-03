@@ -194,14 +194,13 @@ def run_app_cli():
                     
 
    # Bad command line Help 
-   if modelPath == "" or configFile== "":
-      print("Command line shoud be : onnx4acumos ModelName.onnx configurationFile.ini [-f input.data] [-push [-ms]]")
+   if modelPath == "" or (configFile== "" and pushSession):
+      print("Command line shoud be : onnx4acumos ModelName.onnx [configurationFile.ini] [-f input.data] [-push configurationFile.ini [-ms]]")
       exit()
 
    # Checking configuration File concistency
-   if not checkConfiguration(configFile):
-      print("Bad configuration file concistency : ",configFile, " (see onnx4acumos documentation to fill it)")     
-      exit()
+   if pushSession:
+      checkConfiguration(configFile)
    
    
    modelFileName = modelPath.split("/")[(len(modelPath.split("/")) - 1)]
@@ -438,8 +437,9 @@ def run_app_cli():
         print("Creation of model onnx directory : ", dirOnnx)
    
    # copy configuration file in model onnx directory 
-   cpCall = "cp " + configFile + " "+ dirOnnx 
-   subprocess.call(cpCall,shell=True)
+   cpCall = "cp " + configFile + " "+ dirOnnx
+   if pushSession or configFile !="":    
+      subprocess.call(cpCall,shell=True)
    # copy onnx model file in model onnx directory    
    cpCall = "cp " + modelPath + " "+ dirOnnx 
    subprocess.call(cpCall,shell=True)
