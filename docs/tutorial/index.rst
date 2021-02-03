@@ -47,7 +47,7 @@ You will need the two following files for this tutorial :
 - The model located at **/acumos-onnx-client/acumos-package/onnx4acumos/OnnxModels/super_resolution_zoo.onnx**
 - A configuration file located at **/acumos-onnx-client/acumos-package/onnx4acumos/Templates/onnx4acumos.ini**
 
-For the first version of onnx4acumos client, this configuration file is mandatory whatever the kind of on-boarding you used (CLI or WEB)
+This configuration file is mandatory for CLI on-boarding.
 
 onnx4acumos.ini looks like :
 
@@ -94,6 +94,9 @@ First you have to dump the super_resolution_zoo model locally :
 .. code:: bash
 
      onnx4acumos super_resolution_zoo.onnx onnx4acumos.ini -dump -f input/cat.jpg
+
+The onnx4acumos.ini configuration file is optionnal for WEB on-boarding, however it can be provided in order 
+to copy it in "ModelName" directory for later use (push using ModelName/ModelName_OnnxModelOnBoarding.py).
 
 Thanks to the command line above a "ModelName" directory ("super_resolution_zoo" directory in our case)
 is created and it contains all the files needed to test the onnx model locally, the -f parameter is optional and
@@ -240,14 +243,14 @@ The final name of the filled skeleton ModelName_OnnxClientSkeleton.py could be  
 (the same name without Skeleton, super_resolution_zoo_OnnxClient.py for our example).
 
 The filled python client skeleton file can be retrieved in the acumos-onnx-client folder :
-acumos-onnx-client/acumos-package/onnx4acumos/FilledClientSkeletonsExemples/super_resolution_zoo_OnnxClient.py.
+acumos-onnx-client/acumos-package/onnx4acumos/FilledClientSkeletonsExamples/super_resolution_zoo_OnnxClient.py.
 
 Remark : To test super_resolution_zoo you must have a server X running on your local system.
 
 Command lines
 =============
 
-You can find all command lines to test and/ run onnx model super_resolution_zoo below :
+You can find all command lines to test and run onnx model super_resolution_zoo below :
 
 .. code:: bash
 
