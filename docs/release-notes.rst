@@ -23,6 +23,6 @@ Acumos ONNX Client Release Notes
 v1.0.0, 22 January 2021
 =======================
 
-* First release 'ACUMOS-3101 <https://jira.acumos.org/browse/ACUMOS-3101>'_
+* Creation of onnx4acumos 'ACUMOS-3101 <https://jira.acumos.org/browse/ACUMOS-3101>'_
 
 ========================
