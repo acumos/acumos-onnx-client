@@ -19,18 +19,17 @@
 
 .. image:: docs/images/Acumos_logo_white.png
 
-
-====================
-
+==================
 acumos-onnx-client
-====================
+==================
 
 
 |Build Status|
 
 A client library that allows developers to push their ONNX models to Acumos.
 
-See our `documentation <docs/user-guide.rst>`__ to get started.
+See our `installation guide <docs/user-guide.rst>` and our `user guide <docs/tutorial/index.rst>` __ to get started. 
+
 
 .. |Build Status| image:: https://jenkins.acumos.org/buildStatus/icon?job=acumos-python-client-tox-verify-master
    :target: https://jenkins.acumos.org/job/acumos-python-client-tox-verify-master/
