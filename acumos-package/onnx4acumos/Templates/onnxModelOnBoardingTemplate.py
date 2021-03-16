@@ -23,6 +23,24 @@ Created on Tue May 26 10:55:11 2020
 
 @author: Bruno Lozach OrangeFrance/TGI/OLS/SOFT_LANNION
 """
+# ===============WARNING==============================================================
+# This python program is just an example to show (and help) you how to use onnx model
+# on Acumos platform. It's like a  sand box for the new comers on this topic.
+#
+# If you want to push this model on the Acumos platform and you don't have provided 
+# the configuration file and/or license file to onnx4acumos python program, you need to set :
+#
+# 1) L157 : pushSession= True
+# 2) L160 : configFile= "configurationFileName" (name of provided configuration file, see doc.)
+# 3) L174 : opts= Options(create_microservice=False (or True), license="licenseFileName")
+#
+# Like this example with micro-service creation :
+# 1) L157 : pushSession= True
+# 2) L160 : configFile= "onnx4acumos.ini"
+# 3) L174 : opts= Options(create_microservice=True,license="Apache_2.json")
+#
+# ===============WARNING_END==========================================================
+
 # acumos imports
 from acumos.modeling import Model, List, Dict, create_namedtuple, create_dataframe
 from acumos.session import AcumosSession, Options, Requirements
@@ -138,7 +156,7 @@ if checkModel is not None:
 # and configFile variable below should be initialized in order to push the model on acumos platform
 pushSession = False
 
-# configuration file init 
+# configuration file init
 configFile = "onnx4acumos.ini"
 
 if pushSession:

@@ -7,9 +7,9 @@
 # under the Creative Commons Attribution 4.0 International License (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #      http://creativecommons.org/licenses/by/4.0
-# 
+#
 # This file is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
@@ -51,7 +51,7 @@ def computeShape(shape:onnx.onnx_ONNX_REL_1_7_ml_pb2.TensorShapeProto):
           reshapeValue *= dim.dim_value
           outputShape += str(dim.dim_value) +","
        else:
-          outputShape += "1,"
+          outputShape += "1,"  
      tmp = ""
      i =0
      for dim in outputShape:
@@ -63,7 +63,7 @@ def computeShape(shape:onnx.onnx_ONNX_REL_1_7_ml_pb2.TensorShapeProto):
      return outputShape,reshapeValue
 
 
-def computeParam(onnxInput,input_elem_type,param = ""):
+def computeParam(onnxInput,input_elem_type,param = ""):  
      if isinstance(onnxInput,Iterable):
         for elt  in onnxInput:
            if str(elt.type.tensor_type) is not "":
@@ -77,7 +77,7 @@ def computeParam(onnxInput,input_elem_type,param = ""):
               #param += computeParam(elt.type.map_type,input_elem_type,param)
      elif  str(onnxInput.map_type) is not "":
           # print("onnxInput.map_type : ", onnxInput)
-          param += "Elt"
+          param += "Elt" 
      elif  str(onnxInput.tensor_type) is not "":
           print("onnxInput.tensor_type : ", onnxInput)
      return param
@@ -103,16 +103,16 @@ def modifOnnxPB(onnxInput,nb, prefixName = "res"):
    for i in range(1,nb):
       onnxInput.extend([oneInput])
       onnxInput[i].name = prefixName + str(i)
-      onnxInput[i].type.tensor_type.elem_type = i 
+      onnxInput[i].type.tensor_type.elem_type = i
    return onnxInput
 
 def checkConfiguration(configFile:str):
-# Checking configuration file concistency
-
+# Checking configuration file concistency 
+        
     if not os.path.isfile(configFile):
       print("Configuration file ", configFile," is not found")
       exit()
-
+      
     Config = configparser.ConfigParser()
 
     Config.read(configFile)
@@ -120,9 +120,9 @@ def checkConfiguration(configFile:str):
     sections = Config.sections()
 
     errorMsg = f"\033[31mERROR : Bad configuration in " + configFile + " file :\n\n" + "\033[00m"
-
+    
     Ok = True
-
+    
     if 'certificates' in sections and 'proxy' in sections and  'session' in sections:
        try:
           os.environ['CURL_CA_BUNDLE'] = Config.get('certificates', 'CURL_CA_BUNDLE')
@@ -150,17 +150,17 @@ def checkConfiguration(configFile:str):
     else:
        errorMsg = f"\033[31mSections missing in " + configFile +" Configuration file :\033[00m\n 	All [certificates], [proxy] and [session] sections should be defined and filled (see onnx4acumos documentation)"
        Ok = False
-    
+
     if not Ok:
        print(errorMsg)
        exit()
-
-    return Ok
-
+       
+    return Ok 
+    
 
 def run_app_cli():
 
-   # Found where is the setup directory
+   # Found where is the setup directory 
    SETUP_DIR = abspath(dirname(__file__))
 
    # Dump by default (not push)
@@ -187,21 +187,34 @@ def run_app_cli():
              print("Trying to push", modelPath.split(".")[0], "model on Acumos platform")
           else:
              print("Trying to dump", modelPath.split(".")[0], "model in dumpedModel directory")
-
+             
    for arg in argv:
        if re.search(".ini", arg):
-          configFile = arg      
+          configFile = arg
+                    
 
-
-   # Bad command line Help
+   # Bad command line Help 
    if modelPath == "" or (configFile== "" and pushSession):
-      print("Command line shoud be : onnx4acumos ModelName.onnx [configurationFile.ini] [-f input.data] [-push configurationFile.ini [-ms]]")
+      print("Command line shoud be : onnx4acumos ModelName.onnx [configurationFile.ini] [-li licenseFile] [-f input.data] [-push configurationFile.ini [-li licenseFile] [-ms]]")
       exit()
 
    # Checking configuration File concistency
    if pushSession:
       checkConfiguration(configFile)
+      
+   # check License File Name is provided 
+   licenseFileName = ""
+   found = False 
+   for arg in argv:
+       if found:
+          licenseFileName = arg
+          found = False
+       if re.search("-li", arg):
+          found = True
 
+   if licenseFileName != "" and not os.path.isfile(licenseFileName):
+      print("Error : License file ", licenseFileName," is not found")
+      exit()   
 
    modelFileName = modelPath.split("/")[(len(modelPath.split("/")) - 1)]
 
@@ -210,8 +223,8 @@ def run_app_cli():
       print("Model file ", modelPath," is not found")
       exit()
 
-   try:
-      # Load provided onnx model
+   try:  
+      # Load provided onnx model 
       onnx_model = onnx.load(modelPath)
    except:
       print("File ", modelFileName,"is not a ONNX Model")
@@ -249,7 +262,7 @@ def run_app_cli():
 
    # See file onnx/onnx_ONNX_REL_1_7_ml_pb2.py for protobuf type definitions ( 2 differentes : attribute type or tensor data type)
      # attribute_type = 'UNDEFINED','FLOAT','INT','STR','TENSOR','GRAPH','SPARSE_TENSOR',''FLOATS','INTS','STRS','TENSORS','GRAPHS','SPARSE_TENSORS']
-     # tensor_data_type = ['UNDEFINED','FLOAT','UINT8','INT8','UINT16','INT16','INT32','INT64','STRING','BOOL','FLOAT16','DOUBLE','UINT32','UINT64','COMPLEX64','COMPLEX128', 'BFLOAT16']
+     # tensor_data_type = ['UNDEFINED','FLOAT','UINT8','INT8','UINT16','INT16','INT32','INT64','STRING','BOOL','FLOAT16','DOUBLE','UINT32','UINT64','COMPLEX64','COMPLEX128', 'BFLOAT16']  
 
 
    # Input element type definitions (if tensor type -> numpy N-dimensional array (ndarray) -> List[tensor_type.elem_type])
@@ -259,12 +272,12 @@ def run_app_cli():
 
    for elt in onnxInput:
       try:
-        if str(elt.type.tensor_type) is not "":
+        if str(elt.type.tensor_type) is not "":      
             input_elem_type[elt.name] = ['UNDEFINED','List[np.float32]','List[np.int32]','List[np.int32]','List[np.int32]','List[np.int32]','List[np.int32]','List[np.int64]','str','bool','List[np.float16]','List[np.float64]','List[np.uint32]','List[np.uint64]','List[np.complex64]','List[np.complex128]', 'BFLOAT16']
         else:
-            input_elem_type[elt.name] =  ['UNDEFINED','float','int','str','TENSOR','GRAPH','SPARSE_TENSOR','List[float]','List[int]','List[str]','TENSORS','GRAPHS','SPARSE_TENSORS']
+            input_elem_type[elt.name] =  ['UNDEFINED','float','int','str','TENSOR','GRAPH','SPARSE_TENSOR','List[float]','List[int]','List[str]','TENSORS','GRAPHS','SPARSE_TENSORS']     
       except:
-        input_elem_type[elt.name] =  ['UNDEFINED','float','int','str','TENSOR','GRAPH','SPARSE_TENSOR','List[float]','List[int]','List[str]','TENSORS','GRAPHS','SPARSE_TENSORS']
+        input_elem_type[elt.name] =  ['UNDEFINED','float','int','str','TENSOR','GRAPH','SPARSE_TENSOR','List[float]','List[int]','List[str]','TENSORS','GRAPHS','SPARSE_TENSORS'] 
 
 
 
@@ -276,12 +289,13 @@ def run_app_cli():
 
    for elt in onnxOutput:
       try:
-        if str(elt.type.tensor_type) is not "":
+        if str(elt.type.tensor_type) is not "":      
             output_elem_type[elt.name] = ['UNDEFINED','List[np.float32]','List[np.int32]','List[np.int32]','List[np.int32]','List[np.int32]','List[np.int32]','List[np.int64]','str','bool','List[np.float16]','List[np.float64]','List[np.uint32]','List[np.uint64]','List[np.complex64]','List[np.complex128]', 'BFLOAT16']
         else:
-            output_elem_type[elt.name] =  ['UNDEFINED','float','int','str','TENSOR','GRAPH','SPARSE_TENSOR','List[float]','List[int]','List[str]','TENSORS','GRAPHS','SPARSE_TENSORS']
+            output_elem_type[elt.name] =  ['UNDEFINED','float','int','str','TENSOR','GRAPH','SPARSE_TENSOR','List[float]','List[int]','List[str]','TENSORS','GRAPHS','SPARSE_TENSORS'] 
       except:
-        output_elem_type[elt.name] =  ['UNDEFINED','float','int','str','TENSOR','GRAPH','SPARSE_TENSOR','List[float]','List[int]','List[str]','TENSORS','GRAPHS','SPARSE_TENSORS']
+        output_elem_type[elt.name] =  ['UNDEFINED','float','int','str','TENSOR','GRAPH','SPARSE_TENSOR','List[float]','List[int]','List[str]','TENSORS','GRAPHS','SPARSE_TENSORS'] 
+
 
    # Compute Input and Output parameters
 
@@ -313,17 +327,18 @@ def run_app_cli():
        modifOnnxPB(onnxOutput,nb,"OutputSR")
 
 
-   # Taking into account the specificities of the provided Onnx model
+   # Taking into account the specificities of the provided Onnx model 
 
    # Method signature
    templateMethodSignature = "def runOnnxModel"
    newMethodSignature = "def run_" + modelFileName.split(".")[0] +"_OnnxModel(" + onnxInputParam + ")-> MultipleReturn:\n"
 
-   # Configuration File
-   templateConfigFile = "configFile = "
+   # Configuration File 
+   templateConfigFile = "configFile = " 
    newConfigFile = "configFile = \"" + configFile + "\"\n"
-
-   # reshapedInput
+   
+   
+   # reshapedInput 
    templateReshapedInput = "    reshapedInput = np.array"
    newReshapedInput = ""
    for elt in onnxInput:
@@ -332,10 +347,10 @@ def run_app_cli():
              newReshapedInput += "    reshaped"+ elt.name + " = np.array" +"("+ elt.name + ", dtype="+ input_elem_type[elt.name][elt.type.tensor_type.elem_type].split("[")[1].split("]")[0] +").reshape(" +  inputShape + ")\n"
         else:
              newReshapedInput += "    reshaped"+ elt.name + " = " + elt.name + "\n"
+     
 
 
-
-   # ort_Output
+   # ort_Output 
    templateOrt_Output = "    ort_Output = ort_session.run"
    newOrt_Output = templateOrt_Output + "("
 
@@ -347,7 +362,7 @@ def run_app_cli():
           newOrt_Output += "reshaped"+ elt.name + ")\n"
 
 
-   # reshapedOutput
+   # reshapedOutput  
    templateReshapedOutput = "outputData = ort_Output"
    newReshapedOutput = ""
 
@@ -361,11 +376,11 @@ def run_app_cli():
         if re.search("np", outputParam[elt.name]):
            outputShape, outputReshapeValue = computeShape(shape = elt.type.tensor_type.shape)
            newReshapedOutput += "    "+ elt.name + " = ort_Output["+ str(i) + "].reshape(" +  str(outputReshapeValue) + ")\n"
-           newReturn +=  elt.name +" = " + elt.name
+           newReturn +=  elt.name +" = " + elt.name 
         else:
            newReshapedOutput += "    "+ elt.name + " = ort_Output["+ str(i) + "]\n"
            if (outputParam[elt.name] == "List[Elt]"):
-              newReturn +=  elt.name +" = convertDictListToNamedTupleList(" + elt.name + ")"
+              newReturn +=  elt.name +" = convertDictListToNamedTupleList(" + elt.name + ")" 
            else:
               newReturn +=  elt.name +" = " +  elt.name + ""
         if i != maxIter:
@@ -382,7 +397,7 @@ def run_app_cli():
    newMPRC = templateMPRC + "(\"MultipleReturn\", [(\'"
    i = 0
    for elt in onnxOutput:
-         newMPRC+= elt.name + "\', " + outputParam[elt.name] + ")"
+         newMPRC+= elt.name + "\', " + outputParam[elt.name] + ")" 
          if i != maxIter:
             newMPRC+= ", (\'"
          else:
@@ -390,7 +405,7 @@ def run_app_cli():
          i+=1
 
 
-   # Provided model file
+   # Provided model file 
    templateModelFile = "modelFileName ="
    newModelFile = "modelFileName = \"" + modelPath +"\"\n"
 
@@ -420,30 +435,42 @@ def run_app_cli():
 
    if createMicroService:
       newMicroService = "opts = Options(create_microservice=True)\n"
+      if licenseFileName != "":
+         newMicroService = "opts = Options(create_microservice=True,license=\"" + licenseFileName + "\")\n"
    else:
       newMicroService = "opts = Options(create_microservice=False)\n"
-
-   # Opening onnxModelOnBoarding template file
+      if licenseFileName != "":
+         newMicroService = "opts = Options(create_microservice=False,license=\"" + licenseFileName + "\")\n"
+   
+         
+   # Opening onnxModelOnBoarding template file 
    inputFile = open(path_join(SETUP_DIR, 'Templates', 'onnxModelOnBoardingTemplate.py'), "r")
 
-   # model directory creation
-   dirOnnx = modelFileName.split(".")[0]
+   # model directory creation 
+   dirOnnx = modelFileName.split(".")[0] 
 
 
    callMkdir = "mkdir " + dirOnnx
    if not os.path.isdir(dirOnnx):
         subprocess.call(callMkdir,shell=True)
         print("Creation of model onnx directory : ", dirOnnx)
-   
-   # copy configuration file in model onnx directory
-   cpCall = "cp " + configFile + " "+ dirOnnx
-   if pushSession or configFile !="":
-      subprocess.call(cpCall,shell=True)
-   # copy onnx model file in model onnx directory
-   cpCall = "cp " + modelPath + " "+ dirOnnx
-   subprocess.call(cpCall,shell=True)
 
-   # Creation of the new onnxModelOnBoarding file with appropriate features
+   # copy configuration file in model onnx directory 
+   cpCall = "cp " + configFile + " "+ dirOnnx
+   if pushSession or configFile !="":    
+      subprocess.call(cpCall,shell=True)
+      
+   # copy onnx model file in model onnx directory    
+   cpCall = "cp " + modelPath + " "+ dirOnnx 
+   subprocess.call(cpCall,shell=True)
+   
+   # copy licence file in model onnx directory 
+   cpCall = "cp " + licenseFileName + " "+ dirOnnx
+   if licenseFileName !="":    
+      subprocess.call(cpCall,shell=True)
+
+
+   # Creation of the new onnxModelOnBoarding file with appropriate features 
    outputFileName = dirOnnx +"/"+ modelFileName.split(".")[0] + '_OnnxModelOnBoarding.py'
    outputFile = open(outputFileName, "w")
 
@@ -486,12 +513,12 @@ def run_app_cli():
 
    subprocess.call(callPython,shell=True)
 
-   "*** Onnx Client Creation only with Dump session ***"
+   "*** Onnx Client Creation only with Dump session ***" 
    if not os.path.isdir(str(modelFileName.split(".")[0] + "/dumpedModel")):
        exit()
 
 
-   # Client directory creation
+   # Client directory creation 
 
    dirClient = dirOnnx + "/" + modelFileName.split(".")[0] + "_OnnxClient"
 
@@ -524,29 +551,29 @@ def run_app_cli():
    subprocess.call(cpCall,shell=True)
 
    # pb2 python file creation
-   protocCall = "protoc " + " ./" + dirClient + "/" + modelFileName.split(".")[0] + ".proto" + "  --python_out=."
+   protocCall = "protoc " + " ./" + dirClient + "/" + modelFileName.split(".")[0] + ".proto" + "  --python_out=." 
 
    print("Running ", protocCall)
 
    subprocess.call(protocCall,shell=True)
 
    # Copy Onnx model to Client directory
-   cpCall = "cp " +  modelPath + "  " + dirClient
+   cpCall = "cp " +  modelPath + "  " + dirClient  
 
    print("Copy Onnx Model file \"",modelPath, "\" in \"", dirClient,"\" Onnx Client directory")
    subprocess.call(cpCall,shell=True)
 
    # Copy data input file if asked (-f) to Client directory
-   # Data Input File Name
+   # Data Input File Name 
    inputFileName = ""
-   found = False
+   found = False 
    for arg in argv:
        if found:
           inputFileName = arg
           found = False
        if re.search("-f", arg):
           found = True
-
+        
 
    cpCall = "cp " +  inputFileName + "  " + dirClient + "/input"
 
@@ -559,7 +586,7 @@ def run_app_cli():
          print("Copy data input file", inputFileName, "to Client directory : ", dirClient+ "/input")
          subprocess.call(cpCall,shell=True)
 
-   # import protobuf _pb2.py file
+   # import protobuf _pb2.py file 
    templateImportPb = "import model_pb2 as pb"
    newImportPb = "import " +  modelFileName.split(".")[0] + "_pb2" + " as pb\n"
 
@@ -568,7 +595,7 @@ def run_app_cli():
    templateOnLine = "oneLine = inputData"
    newOnLine = "    oneLine = " + onnxInput[0].name + ".reshape(" + str(inputReshapeValue) + ")\n"
 
-   # Input Onnx Extend
+   # Input Onnx Extend 
    # inputOnnx.input.extend(oneLine)
    templateExtend = "inputOnnx.input.extend"
    newExtend = "    inputOnnx." + onnxInput[0].name + ".extend(oneLine)\n"
@@ -579,20 +606,20 @@ def run_app_cli():
    templateReshapeOutput = "output = np.array"
    newReshapeOutput = "    output = np.array(outputOnnx.value).reshape(" + outputShape + ")\n"
 
-   # Client onnx model call
+   # Client onnx model call 
    #   ort_outs = onnxModel
    templateModelCall = "   ort_outs = onnxModel"
-   newModelCall = "   ort_outs = run_" + modelFileName.split(".")[0] +"_OnnxModel(preprocessingData)\n"
+   newModelCall = "   ort_outs = run_" + modelFileName.split(".")[0] +"_OnnxModel(preprocessingData)\n" 
 
-   # modify REST URL
+   # modify REST URL 
    templateRestURL = "restURL ="
    newRestURL = "restURL = \"http://localhost:3330/model/methods/run_" + modelFileName.split(".")[0] + "_OnnxModel\"\n"
 
-   # preprocessing type
+   # preprocessing type 
    templatePreprocessing = "def preprocessing"
    newPreprocessing = "def preprocessing(preProcessingInputFileName: str):\n"
 
-   # postprocessing type
+   # postprocessing type 
    templatePostprocessing = "def postprocessing"
    newPostprocessing = "def postprocessing(postProcessingInput, outputFileName: str)-> bool:\n"
 
@@ -628,11 +655,11 @@ def run_app_cli():
    newModelFile = "modelFileName = \"" + modelFileName +"\"\n"
 
    "**************************************************************************"
-   # Opening Onnx client template file
+   # Opening Onnx client template file 
    inputFile = open(path_join(SETUP_DIR, 'Templates', 'onnxClientTemplate.py'), "r")
 
    # Creation of the onnx client skeleton file with appropriate features
-   print("Creation of the onnx client skeleton file with appropriate features in",dirClient,"directory")
+   print("Creation of the onnx client skeleton file with appropriate features in",dirClient,"directory") 
    outputFileName = dirClient + "/" + modelFileName.split(".")[0] + '_OnnxClientSkeleton.py'
    outputFile = open(outputFileName, "w")
 
@@ -671,7 +698,7 @@ def run_app_cli():
    inputFile.close()
    outputFile.close()
 
-
+ 
 if __name__ == '__main__':
     # allow direct run of the cli app for debugging
     run_app_cli()
