@@ -79,15 +79,20 @@ command line :
 
 .. code:: bash
 
-     onnx4acumos super_resolution_zoo.onnx onnx4acumos.ini -push -ms
+     onnx4acumos super_resolution_zoo.onnx onnx4acumos.ini -push -ms -li "path to your license file"
 
 In this command line the -push parameter is used to on-board the onnx model directly
 in Acumos (CLI on-boarding). You will be prompted to enter your on-boarding token
 : onboarding token = "your Acumos login":"authentication token" (example : acumos_user:a2a6a9e8f4gbg3c147eq9g3h).
 The "authentication token" can be retrieved in the ACUMOS GUI in your personal settings.
+
 The -ms parameter is used to launch the micro-service creation in Acumos right after the on-boarding.
 If -ms is omitted, the model will be on-boarded whithout micro-service generation.
-(don't worry, you can create the micro-service later in Acumos))
+(don't worry, you can create the micro-service later in Acumos)).
+
+The -li parameter is used to onboard a license file alongside your model in Acumos in order to protect the model's copyright.
+This parameter is optional. Please refers to the licence management project in the Acumos wiki. You can find a license 
+template in the doc folder of the acumos4onnx repo in github.
 
 To on-board by web the super_resolution_zoo model in Acumos platform, follow the next step :
 
@@ -98,7 +103,7 @@ First you have to dump the super_resolution_zoo model locally :
      onnx4acumos super_resolution_zoo.onnx onnx4acumos.ini -dump -f input/cat.jpg
 
 The onnx4acumos.ini configuration file is optionnal when you dump your model bundle localy for WEB on-boarding purpose, however 
-it can be provided, in the commande line, in order to copy it in "ModelName" directory for later use (push using ModelName/ModelName_OnnxModelOnBoarding.py).
+it can be provided, in the command line, in order to copy it in "ModelName" directory for later use (push using ModelName/ModelName_OnnxModelOnBoarding.py).
 
 Thanks to the command line above a "ModelName" directory ("super_resolution_zoo" directory in our case)
 is created and it contains all the files needed to test the onnx model locally, the -f parameter is optional and
