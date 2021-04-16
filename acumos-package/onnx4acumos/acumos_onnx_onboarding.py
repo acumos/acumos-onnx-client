@@ -177,6 +177,13 @@ def run_app_cli():
    for arg in argv:
        if re.search("ms", arg):
            createMicroService = True
+
+   # deploy ? (not by default)?
+   deploy = False
+   for arg in argv:
+       if re.search("deploy", arg):
+           deploy = True
+
    modelPath = ""
    configFile =""
    modelFileName = "Onnx model should be with .onnx extension or "
@@ -195,7 +202,7 @@ def run_app_cli():
 
    # Bad command line Help 
    if modelPath == "" or (configFile== "" and pushSession):
-      print("Command line shoud be : onnx4acumos ModelName.onnx [configurationFile.ini] [-li licenseFile] [-f input.data] [-push configurationFile.ini [-li licenseFile] [-ms]]")
+      print("Command line shoud be : onnx4acumos ModelName.onnx [configurationFile.ini] [-li licenseFile] [-f input.data] [-push configurationFile.ini [-li licenseFile] [-deploy] [-ms]]")
       exit()
 
    # Checking configuration File concistency
@@ -441,8 +448,12 @@ def run_app_cli():
       newMicroService = "opts = Options(create_microservice=False)\n"
       if licenseFileName != "":
          newMicroService = "opts = Options(create_microservice=False,license=\"" + licenseFileName + "\")\n"
-   
-         
+
+   if deploy:
+      newMicroService = "opts = Options(create_microservice=True,deploy=True)\n"
+      if licenseFileName != "":
+         newMicroService = "opts = Options(create_microservice=True,deploy=True,license=\"" + licenseFileName + "\")\n"
+
    # Opening onnxModelOnBoarding template file 
    inputFile = open(path_join(SETUP_DIR, 'Templates', 'onnxModelOnBoardingTemplate.py'), "r")
 
