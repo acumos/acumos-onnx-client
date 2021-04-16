@@ -79,7 +79,7 @@ command line :
 
 .. code:: bash
 
-     onnx4acumos super_resolution_zoo.onnx onnx4acumos.ini -push -ms -li "path to your license file"
+     onnx4acumos super_resolution_zoo.onnx onnx4acumos.ini -push -ms -li "path to your license file" -deploy
 
 In this command line the -push parameter is used to on-board the onnx model directly
 in Acumos (CLI on-boarding). You will be prompted to enter your on-boarding token
@@ -91,8 +91,13 @@ If -ms is omitted, the model will be on-boarded whithout micro-service generatio
 (don't worry, you can create the micro-service later in Acumos)).
 
 The -li parameter is used to onboard a license file alongside your model in Acumos in order to protect the model's copyright.
-This parameter is optional. Please refers to the licence management project in the Acumos wiki. You can find a license 
+This parameter is optional. Please refers to the licence management project in the Acumos wiki. You can find a license
 template in the doc folder of the acumos4onnx repo in github.
+
+The -deploy parameter is used to deploy the model automatically after the microservice generation (based in Jenkins server
+configuration set up in Acumos/SITE ADMIN/model deployment automation), by default deploy=False, so if deploy is not mentionned
+in the command line the model will not be deployed. If -deploy is added in the comand line and -ms has been ommitted,
+the microservice will be created and deployed.
 
 To on-board by web the super_resolution_zoo model in Acumos platform, follow the next step :
 
@@ -102,7 +107,7 @@ First you have to dump the super_resolution_zoo model locally :
 
      onnx4acumos super_resolution_zoo.onnx onnx4acumos.ini -dump -f input/cat.jpg
 
-The onnx4acumos.ini configuration file is optionnal when you dump your model bundle localy for WEB on-boarding purpose, however 
+The onnx4acumos.ini configuration file is optionnal when you dump your model bundle localy for WEB on-boarding purpose, however
 it can be provided, in the command line, in order to copy it in "ModelName" directory for later use (push using ModelName/ModelName_OnnxModelOnBoarding.py).
 
 Thanks to the command line above a "ModelName" directory ("super_resolution_zoo" directory in our case)
