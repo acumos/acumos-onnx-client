@@ -43,7 +43,7 @@ import configparser
 
 
 
-def computeShape(shape:onnx.onnx_ONNX_REL_1_7_ml_pb2.TensorShapeProto):
+def computeShape(shape):
      outputShape = "("
      reshapeValue = 1
      for dim in shape.dim:
@@ -267,7 +267,7 @@ def run_app_cli():
    #    <class 'typing.NamedTuple'>}, typing.Dict, typing.List
    #    <class 'numpy.int32'>, <class 'numpy.int64'>, <class 'numpy.float32'>,<class 'numpy.float64'>
 
-   # See file onnx/onnx_ONNX_REL_1_7_ml_pb2.py for protobuf type definitions ( 2 differentes : attribute type or tensor data type)
+   # See file onnx/onnx_ml_pb2.py for protobuf type definitions ( 2 differentes : attribute type or tensor data type)
      # attribute_type = 'UNDEFINED','FLOAT','INT','STR','TENSOR','GRAPH','SPARSE_TENSOR',''FLOATS','INTS','STRS','TENSORS','GRAPHS','SPARSE_TENSORS']
      # tensor_data_type = ['UNDEFINED','FLOAT','UINT8','INT8','UINT16','INT16','INT32','INT64','STRING','BOOL','FLOAT16','DOUBLE','UINT32','UINT64','COMPLEX64','COMPLEX128', 'BFLOAT16']
 
