@@ -20,6 +20,12 @@
 Acumos ONNX Client Release Notes
 ================================
 
+
+v1.0.4 08 June 2021
+===================
+
+* Fix failed with onnx new version 1_9_0 `ACUMOS-4337 <https://jira.acumos.org/browse/ACUMOS-4337>`_
+
 v1.0.3, 27 April 2021
 =====================
 
