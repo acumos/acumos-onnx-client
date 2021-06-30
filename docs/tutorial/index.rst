@@ -49,7 +49,8 @@ You will need the two following files for this tutorial :
 - The model located at **/acumos-onnx-client/acumos-package/onnx4acumos/OnnxModels/super_resolution_zoo.onnx**
 - A configuration file located at **/acumos-onnx-client/acumos-package/onnx4acumos/Templates/onnx4acumos.ini**
 
-This configuration file is mandatory if you want to push your model in Acumos by CLI (CLI on-boarding).
+This configuration file is mandatory if you want to push your model in Acumos by CLI (CLI on-boarding). You must copy
+this file locally if you want to onboard your own models (sometimes onnx4acumos folder name can be confused with onnx4acumos command).
 
 onnx4acumos.ini looks like :
 
@@ -69,7 +70,8 @@ onnx4acumos.ini looks like :
 you can also let this parameter empty (CURL_CA_BUNDLE:), in that case you will just
 receive a warning.
 
-**proxy** : The proxy you used to reach your acumos platform.
+**proxy** : The proxy you used to reach your acumos platform. If you don't use proxy, you can also let this
+parameter empty (https:proxy:).
 
 **session** : The on-boarding model push API URL, available in Acumos GUI in the ON-BOARDING MODEL page.
 
