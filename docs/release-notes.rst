@@ -20,19 +20,11 @@
 Acumos ONNX Client Release Notes
 ================================
 
-v1.0.5 30 June 2021
-===================
+v1.0.5 17 November 2021
+=======================
 
 * Minor documentation change `ACUMOS-4337 <https://jira.acumos.org/browse/ACUMOS-4337>`_
-
-v1.0.4 08 June 2021
-===================
-
 * Fix failed with onnx new version 1_9_0 `ACUMOS-4337 <https://jira.acumos.org/browse/ACUMOS-4337>`_
-
-v1.0.3, 27 April 2021
-=====================
-
 * Adding deploy management `ACUMOS-4308 <https://jira.acumos.org/browse/ACUMOS-4308>`_
 * Adding licence file management `ACUMOS-4319 <https://jira.acumos.org/browse/ACUMOS-4319>`_
 * Avoid the use of configuration file when model bundle is dumped `ACUMOS-4317 <https://jira.acumos.org/browse/ACUMOS-4317>`_
